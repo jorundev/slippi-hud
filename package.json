@@ -6,7 +6,8 @@
     "Marwin Misselhorn",
     "Steven Knepper",
     "PartlyAwesome",
-    "yvng.h"
+    "yvng.h",
+    "jorun <contact@jorun.dev>"
   ],
   "dependencies": {
     "@polymer/app-layout": "^3.0.0",
@@ -32,32 +33,34 @@
     "@polymer/paper-toast": "^3.0.0",
     "@polymer/paper-toolbar": "^3.0.0",
     "@polymer/polymer": "^3.0.0",
+    "@slippi/slippi-js": "^6.2.1",
     "@types/node": "^10.14.4",
+    "@vaadin/vaadin-button": "^20.0.5",
     "@vaadin/vaadin-checkbox": "^20.0.5",
     "@vaadin/vaadin-combo-box": "^20.0.5",
-    "@vaadin/vaadin-radio-button": "^20.0.5",
-    "@vaadin/vaadin-text-field": "^20.0.5",
-    "@vaadin/vaadin-button": "^20.0.5",
     "@vaadin/vaadin-grid": "^20.0.5",
     "@vaadin/vaadin-ordered-layout": "^20.0.5",
+    "@vaadin/vaadin-radio-button": "^20.0.5",
     "@vaadin/vaadin-select": "^20.0.5",
     "@vaadin/vaadin-template-renderer": "^21.0.0",
-    "@webcomponents/webcomponentsjs": "^2.2.10",
-    "@slippi/slippi-js": "^6.2.1",
+    "@vaadin/vaadin-text-field": "^20.0.5",
     "@vinceau/slp-realtime": "https://github.com/dragonbane0/slp-realtime/tarball/ade1ce10fd7fe58e91d4d951d361c5ec55b3f9a1",
+    "@webcomponents/webcomponentsjs": "^2.2.10",
     "got": "^11.8.5",
     "lit": "^2.2.7",
     "obs-websocket-js": "^5.0.3",
     "rxjs": "^6.6.7",
     "slp-stats-nodecg": "https://github.com/dragonbane0/slp-stats-nodecg/tarball/192a49b67c749b0b7e7786e70cad360704f9003b"
   },
-  "devDependencies": {},
-  "optionalDependencies": {},
+  "devDependencies": {
+    "shx": "^0.3.4",
+    "typescript": "^5.2.2"
+  },
   "bundleDependencies": [],
   "homepage": "",
   "license": "",
   "nodecg": {
-    "compatibleRange": "^1.8.1",
+    "compatibleRange": "^2.0",
     "transformBareModuleSpecifiers": true,
     "dashboardPanels": [
       {
@@ -156,5 +159,8 @@
       }
     ]
   },
-  "scripts": {}
+  "scripts": {
+    "format": "prettier --write \"src/**/*.{js,ts,html}\"",
+    "build": "tsc && shx cp ./src/dashboard/*.html ./dist/dashboard && shx cp ./src/graphics/*.html ./dist/graphics && shx cp -r ./src/graphics/img ./dist/graphics/img && shx cp -r ./dist/extension ./extension && shx cp -r ./dist/dashboard ./dashboard && shx cp -r ./dist/graphics ./graphics"
+  }
 }

@@ -2,4 +2,11 @@
 /npm-debug.log
 /component.json
 /npm-shrinkwrap.json
+/slpDumps
 *.slp
+
+# Files generated at build time
+/dashboard
+/extension
+/dist
+*.tsbuildinfo
