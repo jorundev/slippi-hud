@@ -161,6 +161,10 @@
   },
   "scripts": {
     "format": "prettier --write \"src/**/*.{js,ts,html}\"",
-    "build": "tsc && shx cp ./src/dashboard/*.html ./dist/dashboard && shx cp ./src/graphics/*.html ./dist/graphics && shx cp -r ./src/graphics/img ./dist/graphics/img && shx cp -r ./dist/extension ./extension && shx cp -r ./dist/dashboard ./dashboard && shx cp -r ./dist/graphics ./graphics"
+    "build:server": "tsc --p server.tsconfig.json",
+    "build:client": "tsc --p client.tsconfig.json",
+    "movefiles": "shx cp -r dist/* . && shx cp src/dashboard/*.html ./dashboard",
+    "build": "npm run build:server && npm run build:client && npm run movefiles",
+    "clean": "shx rm -rf dashboard extension dist"
   }
 }

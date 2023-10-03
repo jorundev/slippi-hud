@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "module": "ES6",
+      "strict": true,
+      "allowJs": true,
+      "checkJs": false,
+      "rootDir": "./src",
+      "baseUrl": "./",
+      "skipLibCheck": true,
+      "outDir": "dist"
+    },
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.js",
+      "src/**/*.html"
+    ],
+    "exclude": [
+      "node_modules",
+      "src/graphics/**",
+      "src/dashboard/**"
+    ]
+  }
+  

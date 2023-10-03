@@ -16,7 +16,9 @@
       "src/**/*.html"
     ],
     "exclude": [
-      "node_modules"
-    ],
+      "node_modules",
+      "src/extension/**",
+      "src/graphics/**"
+    ]
   }
   
