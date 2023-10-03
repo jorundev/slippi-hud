@@ -1,42 +1,42 @@
-'use strict'
+'use strict';
 
 //Native
 
 //Ours
-const nodecg = require('./util/nodecg-api-context').get()
-const { computeSlpStats } = require('slp-stats-nodecg')
+const nodecg = require('./util/nodecg-api-context').get();
+const { computeSlpStats } = require('slp-stats-nodecg');
 
 //Replicants
-const stats = nodecg.Replicant('stats')
-const tournament = nodecg.Replicant('tournament')
+const stats = nodecg.Replicant('stats');
+const tournament = nodecg.Replicant('tournament');
 
 //Statics
 const extraStats = nodecg.bundleConfig.extraStats
     ? nodecg.bundleConfig.extraStats
-    : []
+    : [];
 
 //Utils
 function getMatchCount() {
-    let count = 0
+    let count = 0;
 
     if (tournament.value.scores) {
         for (let playerScore of tournament.value.scores) {
-            count += playerScore.score
+            count += playerScore.score;
         }
     }
 
-    return count
+    return count;
 }
 
 function setIsFinished() {
     return (
         tournament.value.scores[0].score > tournament.value.bestOf / 2 ||
         tournament.value.scores[1].score > tournament.value.bestOf / 2
-    )
+    );
 }
 
 function checkSetFinished() {
-    let matchCount = getMatchCount()
+    let matchCount = getMatchCount();
 
     if (
         matchCount > 0 &&
@@ -47,47 +47,47 @@ function checkSetFinished() {
         let setParams = computeSlpStats(
             stats.value.activeSetFileList,
             extraStats
-        )
+        );
 
         //Clean set list
-        stats.value.activeSetFileList = []
+        stats.value.activeSetFileList = [];
 
         if (!setParams) {
             console.error(
                 'Incomplete or missing slp recording, skip generating set stats'
-            )
-            return
+            );
+            return;
         }
 
-        stats.value.latestSet = setParams
+        stats.value.latestSet = setParams;
     }
 }
 
 //Listeners
 nodecg.listenFor('stats_finishGame', (filePath) => {
-    let latestGameParams = computeSlpStats([filePath], extraStats)
+    let latestGameParams = computeSlpStats([filePath], extraStats);
 
     if (!latestGameParams) {
-        console.error('Incomplete slp recording, skip generating game stats')
-        return
+        console.error('Incomplete slp recording, skip generating game stats');
+        return;
     }
 
-    stats.value.latestGame = latestGameParams
+    stats.value.latestGame = latestGameParams;
 
     if (!stats.value.activeSetFileList) {
-        stats.value.activeSetFileList = [filePath]
+        stats.value.activeSetFileList = [filePath];
     } else {
-        stats.value.activeSetFileList.push(filePath)
+        stats.value.activeSetFileList.push(filePath);
     }
 
-    checkSetFinished()
-})
+    checkSetFinished();
+});
 
 nodecg.listenFor('tournament_playerWonGame', () => {
-    checkSetFinished()
-})
+    checkSetFinished();
+});
 
 nodecg.listenFor('tournament_resetScores', () => {
     //Clean set list
-    stats.value.activeSetFileList = []
-})
+    stats.value.activeSetFileList = [];
+});

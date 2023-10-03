@@ -1,12 +1,12 @@
-'use strict'
+'use strict';
 
 // Ours
-const nodecg = require('./util/nodecg-api-context').get()
+const nodecg = require('./util/nodecg-api-context').get();
 
-const players = nodecg.Replicant('players')
+const players = nodecg.Replicant('players');
 
 //Statics
-const playerCount = 4
+const playerCount = 4;
 
 //Ensure we have enough player objects
 if (players.value.length < playerCount) {
@@ -18,8 +18,8 @@ if (players.value.length < playerCount) {
             name: '',
             pronouns: '',
             sponsor: '',
-        }
+        };
 
-        players.value.push(player)
+        players.value.push(player);
     }
 }

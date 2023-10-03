@@ -1,23 +1,23 @@
-import { html, css } from 'lit'
-import { map } from 'lit/directives/map.js'
-import { repeat } from 'lit/directives/repeat.js'
-import { range } from 'lit/directives/range.js'
+import { html, css } from 'lit';
+import { map } from 'lit/directives/map.js';
+import { repeat } from 'lit/directives/repeat.js';
+import { range } from 'lit/directives/range.js';
 
-import '@polymer/iron-icons/hardware-icons.js'
-import '@polymer/iron-icons/iron-icons.js'
+import '@polymer/iron-icons/hardware-icons.js';
+import '@polymer/iron-icons/iron-icons.js';
 
-import '@vaadin/vaadin-template-renderer'
-import '@vaadin/vaadin-ordered-layout/vaadin-vertical-layout'
-import '@vaadin/vaadin-ordered-layout/vaadin-horizontal-layout'
-import '@vaadin/vaadin-button'
-import '@vaadin/vaadin-radio-button/vaadin-radio-group.js'
-import '@vaadin/vaadin-radio-button/vaadin-radio-button.js'
-import '@vaadin/vaadin-combo-box'
-import '@vaadin/vaadin-grid'
-import '@vaadin/vaadin-text-field'
-import '@vaadin/vaadin-text-field/vaadin-integer-field.js'
-import '@vaadin/vaadin-text-field/vaadin-number-field.js'
-import '@vaadin/vaadin-select'
+import '@vaadin/vaadin-template-renderer';
+import '@vaadin/vaadin-ordered-layout/vaadin-vertical-layout';
+import '@vaadin/vaadin-ordered-layout/vaadin-horizontal-layout';
+import '@vaadin/vaadin-button';
+import '@vaadin/vaadin-radio-button/vaadin-radio-group.js';
+import '@vaadin/vaadin-radio-button/vaadin-radio-button.js';
+import '@vaadin/vaadin-combo-box';
+import '@vaadin/vaadin-grid';
+import '@vaadin/vaadin-text-field';
+import '@vaadin/vaadin-text-field/vaadin-integer-field.js';
+import '@vaadin/vaadin-text-field/vaadin-number-field.js';
+import '@vaadin/vaadin-select';
 
 export const style = function () {
     return css`
@@ -89,8 +89,8 @@ export const style = function () {
             margin-left: auto;
             margin-right: auto;
         }
-    `
-}
+    `;
+};
 
 export const template = function () {
     return html`
@@ -298,5 +298,5 @@ export const template = function () {
                 >
             </vaadin-radio-group>
         </vaadin-vertical-layout>
-    `
-}
+    `;
+};

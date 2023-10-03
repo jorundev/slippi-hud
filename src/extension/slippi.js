@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 // Native
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
 const {
     SlpLiveStream,
@@ -13,41 +13,41 @@ const {
     getCharacterShortName,
     getCharacterColorName,
     bitmaskToButtons,
-} = require('@vinceau/slp-realtime')
+} = require('@vinceau/slp-realtime');
 const {
     ConnectionStatus,
     ConnectionEvent,
     Ports,
     SlpFileWriterEvent,
-} = require('@slippi/slippi-js')
+} = require('@slippi/slippi-js');
 
 //Ours
-const nodecg = require('./util/nodecg-api-context').get()
-const TimeObject = require('./util/time-object')
-const { computeSlpStats } = require('./stats')
+const nodecg = require('./util/nodecg-api-context').get();
+const TimeObject = require('./util/time-object');
+const { computeSlpStats } = require('./stats');
 
 //Replicants
-const slippi = nodecg.Replicant('slippi')
-const tournament = nodecg.Replicant('tournament')
-const players = nodecg.Replicant('players')
+const slippi = nodecg.Replicant('slippi');
+const tournament = nodecg.Replicant('tournament');
+const players = nodecg.Replicant('players');
 
 //Statics
-const slippi_matchTimer = '08:00'
-const slippi_frameRate = 60
-const slippi_consoleNickname = 'unknown'
+const slippi_matchTimer = '08:00';
+const slippi_frameRate = 60;
+const slippi_consoleNickname = 'unknown';
 
-var globalStream = null
-var realTimeSubs = []
-var externalConsumers = []
+var globalStream = null;
+var realTimeSubs = [];
+var externalConsumers = [];
 
 //Create timer
 slippi.value.gameInfo.timer = new TimeObject(
     slippi.value.gameInfo.timer.rawFrames,
     slippi_frameRate
-)
+);
 
 //Get slp recording path
-var slippi_recordingsPath
+var slippi_recordingsPath;
 
 if (
     !nodecg.bundleConfig.slpDumpPath ||
@@ -55,28 +55,28 @@ if (
 ) {
     let targetPath = nodecg.bundleConfig.slpDumpPath
         ? nodecg.bundleConfig.slpDumpPath.path
-        : 'slpDumps'
+        : 'slpDumps';
     slippi_recordingsPath = path.resolve(
         process.env.NODECG_ROOT,
         `bundles/${nodecg.bundleName}/${targetPath}/`
-    )
+    );
 } else {
-    slippi_recordingsPath = path.resolve(nodecg.bundleConfig.slpDumpPath.path)
+    slippi_recordingsPath = path.resolve(nodecg.bundleConfig.slpDumpPath.path);
 }
 
-console.log('Use SLP recording path:', slippi_recordingsPath)
+console.log('Use SLP recording path:', slippi_recordingsPath);
 
 //Ensure the slp recording folder exists
 if (!fs.existsSync(slippi_recordingsPath))
-    fs.mkdirSync(slippi_recordingsPath, { recursive: true })
+    fs.mkdirSync(slippi_recordingsPath, { recursive: true });
 
 //Utils
 function cleanupConnection() {
     for (let sub of realTimeSubs) {
-        sub.unsubscribe()
+        sub.unsubscribe();
     }
 
-    realTimeSubs = []
+    realTimeSubs = [];
 }
 
 function getCharacterObject(characterId, characterColor) {
@@ -86,21 +86,21 @@ function getCharacterObject(characterId, characterColor) {
         shortName: getCharacterShortName(characterId),
         costumeId: characterColor,
         costumeName: getCharacterColorName(characterId, characterColor),
-    }
+    };
 }
 
 function findActiveTeams(players) {
-    let activeTeams = []
+    let activeTeams = [];
 
     for (let player of players) {
         if (activeTeams.indexOf(player.teamId) == -1) {
-            activeTeams.push(player.teamId)
+            activeTeams.push(player.teamId);
         }
     }
 
-    activeTeams.sort((a, b) => a - b)
+    activeTeams.sort((a, b) => a - b);
 
-    return activeTeams
+    return activeTeams;
 }
 
 function buttonsToBoolObject(buttons) {
@@ -117,60 +117,60 @@ function buttonsToBoolObject(buttons) {
         D_RIGHT: false,
         D_DOWN: false,
         D_LEFT: false,
-    }
+    };
 
     for (let button of buttons) {
-        buttonMap[button] = true
+        buttonMap[button] = true;
     }
 
-    return buttonMap
+    return buttonMap;
 }
 
 //Main functions
 function runConnection() {
-    cleanupConnection()
+    cleanupConnection();
 
-    const realtime = new SlpRealTime()
-    realtime.setStream(globalStream)
+    const realtime = new SlpRealTime();
+    realtime.setStream(globalStream);
 
     realTimeSubs.push(
         realtime.game.start$.subscribe((startState) => {
-            console.log('Game has started:', startState)
+            console.log('Game has started:', startState);
 
             //Set status
-            slippi.value.gameInfo.started = true
-            slippi.value.gameInfo.finished = false
+            slippi.value.gameInfo.started = true;
+            slippi.value.gameInfo.finished = false;
 
             //Set team info
-            slippi.value.gameInfo.isTeams = startState.isTeams
+            slippi.value.gameInfo.isTeams = startState.isTeams;
             slippi.value.gameInfo.activeTeams = startState.isTeams
                 ? findActiveTeams(startState.players)
-                : []
+                : [];
 
             //Set stage
-            slippi.value.gameInfo.stage.id = startState.stageId
+            slippi.value.gameInfo.stage.id = startState.stageId;
             slippi.value.gameInfo.stage.fullName = getStageName(
                 startState.stageId
-            )
+            );
             slippi.value.gameInfo.stage.shortName = getStageShortName(
                 startState.stageId
-            )
+            );
 
             //Reset elapsed frames
-            slippi.value.gameInfo.elapsedFrames = 0
+            slippi.value.gameInfo.elapsedFrames = 0;
 
             //Init timer
             let timerStartFrames =
-                TimeObject.parseSeconds(slippi_matchTimer) * slippi_frameRate
+                TimeObject.parseSeconds(slippi_matchTimer) * slippi_frameRate;
             TimeObject.setFrames(
                 slippi.value.gameInfo.timer,
                 timerStartFrames,
                 slippi_frameRate
-            )
+            );
 
             //Set players
-            let playerInfoArray = []
-            let playerId = 0
+            let playerInfoArray = [];
+            let playerId = 0;
 
             for (let player of startState.players) {
                 let slippiPlayer = {
@@ -211,55 +211,55 @@ function runConnection() {
                             D_LEFT: false,
                         },
                     },
-                }
+                };
 
                 //Slippi automatically has the players sorted by port/index
-                playerInfoArray.push(slippiPlayer)
+                playerInfoArray.push(slippiPlayer);
             }
 
-            slippi.value.playerInfo = playerInfoArray
+            slippi.value.playerInfo = playerInfoArray;
 
-            nodecg.sendMessage('tournament_autoGameStart', startState)
+            nodecg.sendMessage('tournament_autoGameStart', startState);
         })
-    )
+    );
 
     realTimeSubs.push(
         realtime.game.end$.subscribe((endState) => {
-            console.log('Game has ended:', endState)
+            console.log('Game has ended:', endState);
 
             //Set status
-            slippi.value.gameInfo.finished = true
+            slippi.value.gameInfo.finished = true;
 
             nodecg.sendMessage('tournament_autoGameEnd', {
                 endState,
                 finalFrame: endState.lastFrame,
-            })
+            });
         })
-    )
+    );
 
     realTimeSubs.push(
         realtime.stock.percentChange$.subscribe((event) => {
             let player = slippi.value.playerInfo.find(
                 (player) => player.index === event.playerIndex
-            )
-            player.damage = Math.floor(event.percent)
+            );
+            player.damage = Math.floor(event.percent);
             //console.log(`player ${player.id + 1} percent: ${event.percent}`);
         })
-    )
+    );
 
     realTimeSubs.push(
         realtime.stock.countChange$.subscribe((event) => {
             let player = slippi.value.playerInfo.find(
                 (player) => player.index === event.playerIndex
-            )
-            player.stockCountNow = event.stocksRemaining
+            );
+            player.stockCountNow = event.stocksRemaining;
             console.log(
                 `player ${player.id + 1} stocks change: ${
                     event.stocksRemaining
                 }`
-            )
+            );
         })
-    )
+    );
 
     /*
 	realTimeSubs.push(realtime.stock.playerSpawn$.subscribe((stock) => {
@@ -269,7 +269,7 @@ function runConnection() {
 
     realTimeSubs.push(
         realtime.game.rawFrames$.subscribe((frame) => {
-            if (!frame.isTransferComplete) return
+            if (!frame.isTransferComplete) return;
 
             //Update frame count and then the timer data
             if (
@@ -279,21 +279,24 @@ function runConnection() {
                 //Ignore countdown
 
                 let elapsedFrames =
-                    frame.frame - slippi.value.gameInfo.elapsedFrames
-                slippi.value.gameInfo.elapsedFrames = frame.frame
+                    frame.frame - slippi.value.gameInfo.elapsedFrames;
+                slippi.value.gameInfo.elapsedFrames = frame.frame;
 
-                TimeObject.decrement(slippi.value.gameInfo.timer, elapsedFrames)
+                TimeObject.decrement(
+                    slippi.value.gameInfo.timer,
+                    elapsedFrames
+                );
             }
 
             //Per player checks
             for (let framePlayer of frame.players) {
-                if (!framePlayer || !('post' in framePlayer)) continue
+                if (!framePlayer || !('post' in framePlayer)) continue;
 
                 let player = slippi.value.playerInfo.find(
                     (player) => player.index === framePlayer.post.playerIndex
-                )
+                );
 
-                if (!player) continue
+                if (!player) continue;
 
                 //Detect real time character changes (Sheik <--> Zelda)
                 //Zelda to Sheik: 0x12 --> 0x13 (internal: 0x13 ---> 0x07)
@@ -304,7 +307,7 @@ function runConnection() {
                     player.character = getCharacterObject(
                         0x13,
                         player.character.costumeId
-                    )
+                    );
                 }
                 //Sheik to Zelda: 0x13 --> 0x12 (internal: 0x07 ---> 0x13)
                 else if (
@@ -314,19 +317,20 @@ function runConnection() {
                     player.character = getCharacterObject(
                         0x12,
                         player.character.costumeId
-                    )
+                    );
                 }
 
                 //Update controller sticks every time
-                player.controller.mainStickX = framePlayer.pre.joystickX
-                player.controller.mainStickY = framePlayer.pre.joystickY
+                player.controller.mainStickX = framePlayer.pre.joystickX;
+                player.controller.mainStickY = framePlayer.pre.joystickY;
 
-                player.controller.cStickX = framePlayer.pre.cStickX
-                player.controller.cStickY = framePlayer.pre.cStickY
+                player.controller.cStickX = framePlayer.pre.cStickX;
+                player.controller.cStickY = framePlayer.pre.cStickY;
 
-                player.controller.leftTrigger = framePlayer.pre.physicalLTrigger
+                player.controller.leftTrigger =
+                    framePlayer.pre.physicalLTrigger;
                 player.controller.rightTrigger =
-                    framePlayer.pre.physicalRTrigger
+                    framePlayer.pre.physicalRTrigger;
 
                 //Only update button inputs if the bitmask changed
                 if (
@@ -334,13 +338,13 @@ function runConnection() {
                     player.controller.rawButtons
                 ) {
                     player.controller.rawButtons =
-                        framePlayer.pre.physicalButtons
+                        framePlayer.pre.physicalButtons;
 
                     let pressedButtons = bitmaskToButtons(
                         framePlayer.pre.physicalButtons
-                    )
+                    );
                     player.controller.pressedButtons =
-                        buttonsToBoolObject(pressedButtons)
+                        buttonsToBoolObject(pressedButtons);
 
                     //console.log("Button inputs changed, now:", player.controller);
                 }
@@ -376,7 +380,7 @@ function runConnection() {
                         attackY: framePlayer.post.selfInducedSpeeds.attackY,
                         groundX: framePlayer.post.selfInducedSpeeds.groundX,
                     },
-                }
+                };
             }
 
             //Update external consumers
@@ -384,15 +388,15 @@ function runConnection() {
                 if (callback) {
                     if (typeof callback == 'object') {
                         //Function with specific context (e.g. class)
-                        callback.function.call(callback.context, frame)
+                        callback.function.call(callback.context, frame);
                     } else {
                         //Static function
-                        callback(frame)
+                        callback(frame);
                     }
                 }
             }
         })
-    )
+    );
 }
 
 async function connectToSlippi(
@@ -400,55 +404,55 @@ async function connectToSlippi(
     address = '0.0.0.0',
     slpPort = 1667
 ) {
-    slippi.value.connection.type = type
-    slippi.value.connection.address = address
-    slippi.value.connection.port = slpPort
-    slippi.value.connection.connected = false
+    slippi.value.connection.type = type;
+    slippi.value.connection.address = address;
+    slippi.value.connection.port = slpPort;
+    slippi.value.connection.connected = false;
 
     //type: "dolphin" or "console"
-    console.log(`Attempt to connect to slippi on port: ${slpPort}`)
+    console.log(`Attempt to connect to slippi on port: ${slpPort}`);
 
     let fileOptions = {
         outputFiles: true,
         folderPath: slippi_recordingsPath,
         consoleNickname: slippi_consoleNickname,
-    }
+    };
 
-    const stream = new SlpLiveStream(type, fileOptions)
+    const stream = new SlpLiveStream(type, fileOptions);
 
     stream.connection.on(ConnectionEvent.ERROR, (err) => {
         //Silently ignore errors for now
         //console.error("Slippi error:", err);
-    })
+    });
 
     stream.connection.once(ConnectionEvent.CONNECT, () => {
-        const connType = type === 'dolphin' ? 'Slippi Dolphin' : 'Slippi relay'
+        const connType = type === 'dolphin' ? 'Slippi Dolphin' : 'Slippi relay';
 
         stream.connection.on(ConnectionEvent.STATUS_CHANGE, (status) => {
-            console.log('Status change')
+            console.log('Status change');
 
             if (status === ConnectionStatus.CONNECTED) {
-                console.log(`Connected to ${connType}`)
+                console.log(`Connected to ${connType}`);
 
-                slippi.value.connection.connected = true
-                runConnection()
+                slippi.value.connection.connected = true;
+                runConnection();
             } else if (status === ConnectionStatus.DISCONNECTED) {
-                slippi.value.connection.connected = false
-                cleanupConnection()
+                slippi.value.connection.connected = false;
+                cleanupConnection();
 
-                console.log(`Disconnected from ${connType}`)
+                console.log(`Disconnected from ${connType}`);
             }
-        })
-    })
+        });
+    });
 
     stream.on(SlpFileWriterEvent.FILE_COMPLETE, (filePath) => {
-        let pathExtras = []
+        let pathExtras = [];
 
         if (tournament.value.name && tournament.value.name.length > 0) {
-            pathExtras.push(tournament.value.name)
+            pathExtras.push(tournament.value.name);
 
             if (tournament.value.round && tournament.value.round.length > 0) {
-                pathExtras.push(tournament.value.round)
+                pathExtras.push(tournament.value.round);
 
                 if (!tournament.value.isTeams) {
                     //Singles, grab player 1 and player 2
@@ -456,7 +460,7 @@ async function connectToSlippi(
                     if (players.value && players.value.length > 1) {
                         pathExtras.push(
                             `${players.value[0].name} vs ${players.value[1].name}`
-                        )
+                        );
                     }
                 } else {
                     //Doubles, grab all 4 names
@@ -464,7 +468,7 @@ async function connectToSlippi(
                     if (players.value && players.value.length > 3) {
                         pathExtras.push(
                             `${players.value[0].name},${players.value[1].name} vs ${players.value[2].name},${players.value[3].name}`
-                        )
+                        );
                     }
                 }
             }
@@ -475,39 +479,39 @@ async function connectToSlippi(
             pathExtras[n] = pathExtras[n].replace(
                 /([^a-z0-9\s_\-\',\#]+)/gi,
                 ''
-            )
+            );
         }
 
-        let finalPathCombined = path.join(slippi_recordingsPath, ...pathExtras)
+        let finalPathCombined = path.join(slippi_recordingsPath, ...pathExtras);
 
         //Ensure the final slp recording folder exists
         if (!fs.existsSync(finalPathCombined))
-            fs.mkdirSync(finalPathCombined, { recursive: true })
+            fs.mkdirSync(finalPathCombined, { recursive: true });
 
         //Note: Delay here is necessary as LRAS game endings delay the slp file flushing
         setTimeout(() => {
-            console.log('Dumped a SLP recording to:', filePath)
+            console.log('Dumped a SLP recording to:', filePath);
 
             //Move the file
-            let fileName = path.basename(filePath)
-            finalPathCombined = path.join(finalPathCombined, fileName)
+            let fileName = path.basename(filePath);
+            finalPathCombined = path.join(finalPathCombined, fileName);
 
-            console.log('New final SLP path:', finalPathCombined)
-            fs.renameSync(filePath, finalPathCombined)
+            console.log('New final SLP path:', finalPathCombined);
+            fs.renameSync(filePath, finalPathCombined);
 
-            nodecg.sendMessage('stats_finishGame', finalPathCombined)
-        }, 100)
-    })
+            nodecg.sendMessage('stats_finishGame', finalPathCombined);
+        }, 100);
+    });
 
-    globalStream = stream
-    await stream.start(address, slpPort)
+    globalStream = stream;
+    await stream.start(address, slpPort);
 }
 
 function disconnectFromSlippi() {
     //Just cleanup in case no connection exists
     if (!globalStream) {
-        slippi.value.connection.connected = false
-        cleanupConnection()
+        slippi.value.connection.connected = false;
+        cleanupConnection();
     }
 
     if (
@@ -515,10 +519,10 @@ function disconnectFromSlippi() {
         'connection' in globalStream &&
         slippi.value.connection.connected
     ) {
-        globalStream.connection.disconnect()
+        globalStream.connection.disconnect();
     }
 
-    globalStream = null
+    globalStream = null;
 }
 
 //Listeners
@@ -528,54 +532,54 @@ nodecg.listenFor('slippi_connect', (params) => {
         'connection' in globalStream &&
         slippi.value.connection.connected
     )
-        return
+        return;
 
     //Dolphin. Auto assume address and port
     if (params.type === 'dolphin') {
         connectToSlippi(params.type, '127.0.0.1', Ports.DEFAULT).catch((ex) =>
             console.error('Failed to connect to Slippi Dolphin:', ex)
-        )
+        );
     } else {
         //Relay
         connectToSlippi(params.type, params.address, params.port).catch((ex) =>
             console.error('Failed to connect to Slippi Relay:', ex)
-        )
+        );
     }
-})
+});
 
 nodecg.listenFor('slippi_disconnect', () => {
-    disconnectFromSlippi()
-})
+    disconnectFromSlippi();
+});
 
 //External hook for high performance frame data consumption
 global.slippi_registerExternalConsumer = function (callback) {
-    externalConsumers.push(callback)
-}
+    externalConsumers.push(callback);
+};
 
 //TEST
 async function test() {
-    const device = 'dolphin'
-    const consolePort = 2000
+    const device = 'dolphin';
+    const consolePort = 2000;
 
     if (device == 'dolphin') {
         try {
-            await connectToSlippi('dolphin', '127.0.0.1', Ports.DEFAULT)
+            await connectToSlippi('dolphin', '127.0.0.1', Ports.DEFAULT);
         } catch (err) {
             console.error(
                 'Failed to connect to Dolphin! Is Slippi Dolphin running?',
                 err
-            )
+            );
         }
     } else {
         //console
         try {
-            console.log(`Connecting on port: ${consolePort}`)
-            await connectToSlippi('relay', '0.0.0.0', consolePort)
+            console.log(`Connecting on port: ${consolePort}`);
+            await connectToSlippi('relay', '0.0.0.0', consolePort);
         } catch (err) {
             console.error(
                 `Failed to connect to port ${consolePort}! Is the relay running?`,
                 err
-            )
+            );
         }
     }
 }
@@ -584,10 +588,10 @@ async function test() {
 
 //Auto try to connect on boot if connection status was last true (using last known data)
 if (slippi.value.connection.connected) {
-    disconnectFromSlippi()
+    disconnectFromSlippi();
     nodecg.sendMessage('slippi_connect', {
         type: slippi.value.connection.type,
         address: slippi.value.connection.address,
         port: slippi.value.connection.port,
-    })
+    });
 }

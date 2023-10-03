@@ -1,46 +1,46 @@
-import { LitElement } from 'lit'
-import { customElement, property } from 'lit/decorators.js'
+import { LitElement } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
-import { style, template } from './template-selector-template.js'
+import { style, template } from './template-selector-template.js';
 
 //Replicants
-const templates = nodecg.Replicant('templates')
+const templates = nodecg.Replicant('templates');
 
 //Global vars
-var ready = false
+var ready = false;
 
 //Class
 export class TemplateSelector extends LitElement {
     static get styles() {
-        return style.call(this)
+        return style.call(this);
     }
 
     static get properties() {
         return {
             selectedTemplateIndex: { type: String },
-        }
+        };
     }
 
     render() {
-        return template.call(this)
+        return template.call(this);
     }
 
     constructor() {
-        super()
+        super();
 
-        this.selectedTemplateIndex = '0'
+        this.selectedTemplateIndex = '0';
 
-        const replicants = [templates]
+        const replicants = [templates];
 
-        let numDeclared = 0
+        let numDeclared = 0;
         replicants.forEach((replicant) => {
             replicant.once('change', () => {
-                numDeclared++
+                numDeclared++;
 
                 // Start the loop once all replicants are declared
                 if (numDeclared >= replicants.length) {
                     templates.on('change', (newVal, oldVal) => {
-                        if (!newVal) return
+                        if (!newVal) return;
 
                         let activeTemplateIndex =
                             templates.value.availableTemplates.findIndex(
@@ -48,40 +48,40 @@ export class TemplateSelector extends LitElement {
                                     return (
                                         template.fileName ===
                                         newVal.activeTemplate.name
-                                    )
+                                    );
                                 }
-                            )
+                            );
 
                         if (activeTemplateIndex != -1) {
                             this.selectedTemplateIndex =
-                                activeTemplateIndex.toString()
+                                activeTemplateIndex.toString();
                             console.log(
                                 'now active:',
                                 templates.value.availableTemplates[
                                     activeTemplateIndex
                                 ].fileName
-                            )
+                            );
                         }
 
-                        this.requestUpdate()
-                        ready = true
-                    })
+                        this.requestUpdate();
+                        ready = true;
+                    });
                 }
-            })
-        })
+            });
+        });
     }
 
     updated(changedProperties) {
         this.renderRoot.querySelector('#template').renderer = function (root) {
-            console.log('Render')
+            console.log('Render');
 
             //Check if there is a list-box generated with the previous renderer call to update its content instead of recreation
             if (root.firstChild) {
-                return
+                return;
             }
 
             //Create the <vaadin-list-box>
-            const listBox = window.document.createElement('vaadin-list-box')
+            const listBox = window.document.createElement('vaadin-list-box');
 
             if (
                 ready &&
@@ -89,35 +89,35 @@ export class TemplateSelector extends LitElement {
                 templates.value &&
                 templates.value.availableTemplates
             ) {
-                let index = 0
+                let index = 0;
 
                 templates.value.availableTemplates.forEach(function (template) {
                     const vaadinItem =
-                        window.document.createElement('vaadin-item')
-                    vaadinItem.textContent = template.fileName
-                    vaadinItem.setAttribute('value', index.toString())
+                        window.document.createElement('vaadin-item');
+                    vaadinItem.textContent = template.fileName;
+                    vaadinItem.setAttribute('value', index.toString());
 
-                    listBox.appendChild(vaadinItem)
-                    index++
-                })
+                    listBox.appendChild(vaadinItem);
+                    index++;
+                });
             }
 
             //Add the list box
-            root.appendChild(listBox)
-        }
+            root.appendChild(listBox);
+        };
     }
 
     _templateChange(event) {
-        let targetTemplateIndex = Number.parseInt(event.target.value)
+        let targetTemplateIndex = Number.parseInt(event.target.value);
         let selectedTemplate =
-            templates.value.availableTemplates[targetTemplateIndex]
+            templates.value.availableTemplates[targetTemplateIndex];
 
         if (selectedTemplate) {
-            console.log('Use template:', selectedTemplate.fileName)
-            templates.value.activeTemplate.index = targetTemplateIndex
-            templates.value.activeTemplate.name = selectedTemplate.fileName
+            console.log('Use template:', selectedTemplate.fileName);
+            templates.value.activeTemplate.index = targetTemplateIndex;
+            templates.value.activeTemplate.name = selectedTemplate.fileName;
         }
     }
 }
 
-customElements.define('template-selector', TemplateSelector)
+customElements.define('template-selector', TemplateSelector);

@@ -1,32 +1,32 @@
-'use strict'
+'use strict';
 
 // Ours
-const nodecg = require('./util/nodecg-api-context').get()
+const nodecg = require('./util/nodecg-api-context').get();
 
-const tournament = nodecg.Replicant('tournament')
-const slippi = nodecg.Replicant('slippi')
+const tournament = nodecg.Replicant('tournament');
+const slippi = nodecg.Replicant('slippi');
 
 //Statics
 const automateAutoScoreToggle =
     'automateAutoScoreToggle' in nodecg.bundleConfig
         ? nodecg.bundleConfig.automateAutoScoreToggle
-        : false
-const minScoreCount = 2
-const minCommentatorCount = 2
-const resetScoreTimeout = 10 * 1000
+        : false;
+const minScoreCount = 2;
+const minCommentatorCount = 2;
+const resetScoreTimeout = 10 * 1000;
 
 //Ensure enough score entries exist
-if (!tournament.value.scores) tournament.value.scores = []
+if (!tournament.value.scores) tournament.value.scores = [];
 
 if (tournament.value.scores.length < minScoreCount) {
     for (let i = tournament.value.scores.length; i < minScoreCount; i++) {
-        let playerScore = createPlayerScoreEntry()
-        tournament.value.scores.push(playerScore)
+        let playerScore = createPlayerScoreEntry();
+        tournament.value.scores.push(playerScore);
     }
 }
 
 //Ensure enough commentator entries exist
-if (!tournament.value.commentators) tournament.value.commentators = []
+if (!tournament.value.commentators) tournament.value.commentators = [];
 
 if (tournament.value.commentators.length < minCommentatorCount) {
     for (
@@ -34,10 +34,10 @@ if (tournament.value.commentators.length < minCommentatorCount) {
         i < minCommentatorCount;
         i++
     ) {
-        let commentator = createCommentatorEntry()
-        commentator.id = i
+        let commentator = createCommentatorEntry();
+        commentator.id = i;
 
-        tournament.value.commentators.push(commentator)
+        tournament.value.commentators.push(commentator);
     }
 }
 
@@ -46,7 +46,7 @@ function createPlayerScoreEntry() {
     return {
         score: 0,
         rawResults: [],
-    }
+    };
 }
 
 function createCommentatorEntry() {
@@ -54,7 +54,7 @@ function createCommentatorEntry() {
         id: -1,
         name: '',
         info: '',
-    }
+    };
 }
 
 function determineWinner(data) {
@@ -87,53 +87,53 @@ function determineWinner(data) {
 		-The team where no member performed LRAS: winner
 	*/
 
-    let winnerPlayer = null
+    let winnerPlayer = null;
 
     switch (data.endState.gameEndMethod) {
         case 1: {
             //TIME
 
-            let compareSets = []
+            let compareSets = [];
 
             if (slippi.value.gameInfo.isTeams) {
                 //Doubles
 
                 compareSets = Array(
                     slippi.value.gameInfo.activeTeams.length
-                ).fill(null)
+                ).fill(null);
 
                 for (let i = 0; i < data.finalFrame.players.length; i++) {
-                    let player = data.finalFrame.players[i]
+                    let player = data.finalFrame.players[i];
 
-                    if (!player || !('post' in player)) continue
+                    if (!player || !('post' in player)) continue;
 
                     let playerInfo = slippi.value.playerInfo.find(
                         (playerInfoElem) =>
                             playerInfoElem.index === player.post.playerIndex
-                    )
+                    );
 
-                    if (!playerInfo) continue
+                    if (!playerInfo) continue;
 
                     //Get player teamId and lookup its index in sorted activeTeams. This is the target teamId
-                    let playerTeamId = playerInfo.teamId
+                    let playerTeamId = playerInfo.teamId;
                     let teamId = slippi.value.gameInfo.activeTeams.findIndex(
                         (teamIdElem) => teamIdElem === playerTeamId
-                    )
+                    );
 
-                    if (teamId < 0) continue
+                    if (teamId < 0) continue;
 
                     if (!compareSets[teamId]) {
                         compareSets[teamId] = {
                             index: teamId,
                             stocksRemaining: player.post.stocksRemaining,
                             percent: Math.floor(player.post.percent),
-                        }
+                        };
                     } else {
                         compareSets[teamId].stocksRemaining +=
-                            player.post.stocksRemaining
+                            player.post.stocksRemaining;
                         compareSets[teamId].percent += Math.floor(
                             player.post.percent
-                        )
+                        );
                     }
                 }
             } else {
@@ -141,87 +141,87 @@ function determineWinner(data) {
 
                 data.finalFrame.players.forEach((player) => {
                     if (!player || !('post' in player)) {
-                        compareSets.push(null)
+                        compareSets.push(null);
                     }
 
                     let set = {
                         index: player.post.playerIndex,
                         stocksRemaining: player.post.stocksRemaining,
                         percent: Math.floor(player.post.percent),
-                    }
+                    };
 
-                    compareSets.push(set)
-                })
+                    compareSets.push(set);
+                });
             }
 
             winnerPlayer = compareSets.reduce((a, b) => {
-                if (!a) return b
+                if (!a) return b;
 
-                if (!b) return a
+                if (!b) return a;
 
                 //Stock Count
                 if (a.stocksRemaining > b.stocksRemaining) {
-                    return a
+                    return a;
                 }
                 if (a.stocksRemaining < b.stocksRemaining) {
-                    return b
+                    return b;
                 }
 
                 //Least damage
                 if (a.percent < b.percent) {
-                    return a
+                    return a;
                 }
                 if (a.percent > b.percent) {
-                    return b
+                    return b;
                 }
 
                 //Tied
-                return null
-            })
+                return null;
+            });
 
-            break
+            break;
         }
         case 2: //GAME
         case 3: {
             //ToDo: What is '3'? Team GAME?
 
-            let compareSets = []
+            let compareSets = [];
 
             if (slippi.value.gameInfo.isTeams) {
                 //Doubles
 
                 compareSets = Array(
                     slippi.value.gameInfo.activeTeams.length
-                ).fill(null)
+                ).fill(null);
 
                 for (let i = 0; i < data.finalFrame.players.length; i++) {
-                    let player = data.finalFrame.players[i]
+                    let player = data.finalFrame.players[i];
 
-                    if (!player || !('post' in player)) continue
+                    if (!player || !('post' in player)) continue;
 
                     let playerInfo = slippi.value.playerInfo.find(
                         (playerInfoElem) =>
                             playerInfoElem.index === player.post.playerIndex
-                    )
+                    );
 
-                    if (!playerInfo) continue
+                    if (!playerInfo) continue;
 
                     //Get player teamId and lookup its index in sorted activeTeams. This is the target teamId
-                    let playerTeamId = playerInfo.teamId
+                    let playerTeamId = playerInfo.teamId;
                     let teamId = slippi.value.gameInfo.activeTeams.findIndex(
                         (teamIdElem) => teamIdElem === playerTeamId
-                    )
+                    );
 
-                    if (teamId < 0) continue
+                    if (teamId < 0) continue;
 
                     if (!compareSets[teamId]) {
                         compareSets[teamId] = {
                             index: teamId,
                             stocksRemaining: player.post.stocksRemaining,
-                        }
+                        };
                     } else {
                         compareSets[teamId].stocksRemaining +=
-                            player.post.stocksRemaining
+                            player.post.stocksRemaining;
                     }
                 }
             } else {
@@ -229,41 +229,41 @@ function determineWinner(data) {
 
                 data.finalFrame.players.forEach((player) => {
                     if (!player || !('post' in player)) {
-                        compareSets.push(null)
+                        compareSets.push(null);
                     }
 
                     let set = {
                         index: player.post.playerIndex,
                         stocksRemaining: player.post.stocksRemaining,
-                    }
+                    };
 
-                    compareSets.push(set)
-                })
+                    compareSets.push(set);
+                });
             }
 
             winnerPlayer = compareSets.reduce((a, b) => {
-                if (!a) return b
+                if (!a) return b;
 
-                if (!b) return a
+                if (!b) return a;
 
                 //Stock Count
                 if (a.stocksRemaining > 0) {
-                    return a
+                    return a;
                 }
                 if (b.stocksRemaining > 0) {
-                    return b
+                    return b;
                 }
 
                 //Tied
-                return null
-            })
+                return null;
+            });
 
-            break
+            break;
         }
         case 7: {
             //No Contest
 
-            let loserIndex = data.endState.lrasInitiatorIndex
+            let loserIndex = data.endState.lrasInitiatorIndex;
 
             if (slippi.value.gameInfo.isTeams) {
                 //Doubles
@@ -271,19 +271,19 @@ function determineWinner(data) {
                 //Find the local teamId of the loser and let the other team win
                 let playerInfo = slippi.value.playerInfo.find(
                     (player) => player.index === loserIndex
-                )
+                );
 
                 if (playerInfo) {
-                    let playerTeamId = playerInfo.teamId
+                    let playerTeamId = playerInfo.teamId;
                     let loserTeamId =
                         slippi.value.gameInfo.activeTeams.findIndex(
                             (teamIdElem) => teamIdElem === playerTeamId
-                        )
+                        );
 
                     if (loserTeamId > -1) {
                         let winningTeamId =
-                            loserTeamId > 0 ? loserTeamId - 1 : loserTeamId + 1
-                        winnerPlayer = { index: winningTeamId }
+                            loserTeamId > 0 ? loserTeamId - 1 : loserTeamId + 1;
+                        winnerPlayer = { index: winningTeamId };
                     }
                 }
             } else {
@@ -296,140 +296,140 @@ function determineWinner(data) {
                         !player.post ||
                         player.post.playerIndex == loserIndex
                     )
-                        return false
-                    else return true
-                })
+                        return false;
+                    else return true;
+                });
 
                 if (winnerPlayer)
-                    winnerPlayer = { index: winnerPlayer.post.playerIndex }
+                    winnerPlayer = { index: winnerPlayer.post.playerIndex };
             }
 
-            break
+            break;
         }
     }
 
     if (winnerPlayer) {
-        return winnerPlayer.index
+        return winnerPlayer.index;
     } else {
-        return -1
+        return -1;
     }
 }
 
 //Listeners
 nodecg.listenFor('tournament_resetScores', () => {
     //Clear array, then create fresh entries
-    tournament.value.scores = []
-    tournament.value.matchScored = false
+    tournament.value.scores = [];
+    tournament.value.matchScored = false;
 
-    let scoreTargetLength = 2
+    let scoreTargetLength = 2;
 
     //Force to team count instead of player count if team mode is true
     if (slippi.value.gameInfo.started == true) {
         scoreTargetLength = slippi.value.gameInfo.isTeams
             ? slippi.value.gameInfo.activeTeams.length
-            : slippi.value.playerInfo.length
+            : slippi.value.playerInfo.length;
     }
 
     for (let i = 0; i < scoreTargetLength; i++) {
-        let playerScore = createPlayerScoreEntry()
-        tournament.value.scores.push(playerScore)
+        let playerScore = createPlayerScoreEntry();
+        tournament.value.scores.push(playerScore);
     }
-})
+});
 
 //For Slippi API
 nodecg.listenFor('tournament_autoGameStart', (data) => {
-    tournament.value.matchScored = false
+    tournament.value.matchScored = false;
 
     //Auto switch to the correct mode on game start
-    tournament.value.isTeams = data.isTeams
+    tournament.value.isTeams = data.isTeams;
 
-    if (!tournament.value.autoScore) return
+    if (!tournament.value.autoScore) return;
 
     //Ensure enough score entries exist
     let scoreTargetLength = data.isTeams
         ? slippi.value.gameInfo.activeTeams.length
-        : data.players.length
-    let missingPlayers = scoreTargetLength - tournament.value.scores.length
+        : data.players.length;
+    let missingPlayers = scoreTargetLength - tournament.value.scores.length;
 
     if (missingPlayers > 0) {
         for (let i = 0; i < missingPlayers; i++) {
-            let playerScore = createPlayerScoreEntry()
-            tournament.value.scores.push(playerScore)
+            let playerScore = createPlayerScoreEntry();
+            tournament.value.scores.push(playerScore);
         }
     }
-})
+});
 
 nodecg.listenFor('tournament_autoGameEnd', (data) => {
     if (!tournament.value.autoScore) {
         //When a match ends and auto scoring is automatically managed, we will enable it here and always process this match, otherwise exit
-        if (!automateAutoScoreToggle) return
+        if (!automateAutoScoreToggle) return;
 
-        tournament.value.autoScore = true
+        tournament.value.autoScore = true;
     }
 
-    let winnerIndex = determineWinner(data)
+    let winnerIndex = determineWinner(data);
 
     //console.log("Winner id:", winnerIndex);
 
     //Exit early if we have a tie (Note: Rules usually will ensure this match is replayed until there is a winner, so this match should be "forgotten")
-    if (winnerIndex == -1) return
+    if (winnerIndex == -1) return;
 
     //In teams mode, winnerIndex is already the final score id
-    let winnerId = winnerIndex
+    let winnerId = winnerIndex;
 
     if (!slippi.value.gameInfo.isTeams) {
         //Find the real index
         let winnerPlayer = slippi.value.playerInfo.find(
             (player) => player.index === winnerIndex
-        )
+        );
 
-        if (!winnerPlayer) return
+        if (!winnerPlayer) return;
 
-        winnerId = winnerPlayer.id
+        winnerId = winnerPlayer.id;
     }
 
     //Protect against invalid wins crashing the app
-    if (tournament.value.scores.length <= winnerId) return
+    if (tournament.value.scores.length <= winnerId) return;
 
     //Add +1 to the winner
-    tournament.value.scores[winnerId].score++
+    tournament.value.scores[winnerId].score++;
 
     //Add raw result to every team in doubles mode
     if (slippi.value.gameInfo.isTeams) {
         for (let i = 0; i < slippi.value.gameInfo.activeTeams.length; i++) {
             //Protect against invalid wins crashing the app
-            if (tournament.value.scores.length <= i) break
+            if (tournament.value.scores.length <= i) break;
 
-            let score = i == winnerId ? 1 : 0
-            tournament.value.scores[i].rawResults.push(score)
+            let score = i == winnerId ? 1 : 0;
+            tournament.value.scores[i].rawResults.push(score);
         }
     } else {
         //Add raw result to every player in singles mode
         for (let player of slippi.value.playerInfo) {
-            if (!player) continue
+            if (!player) continue;
 
             //Protect against invalid wins crashing the app
-            if (tournament.value.scores.length <= player.id) continue
+            if (tournament.value.scores.length <= player.id) continue;
 
-            let score = player.index == winnerIndex ? 1 : 0
-            tournament.value.scores[player.id].rawResults.push(score)
+            let score = player.index == winnerIndex ? 1 : 0;
+            tournament.value.scores[player.id].rawResults.push(score);
         }
     }
 
-    console.log('New score is:', tournament.value.scores)
-    nodecg.sendMessage('tournament_playerWonGame', winnerId)
+    console.log('New score is:', tournament.value.scores);
+    nodecg.sendMessage('tournament_playerWonGame', winnerId);
 
     //Reset scores automatically once someone wins
     if (tournament.value.scores[winnerId].score > tournament.value.bestOf / 2) {
-        nodecg.sendMessage('tournament_playerWonBestOf', winnerId)
+        nodecg.sendMessage('tournament_playerWonBestOf', winnerId);
 
         setTimeout(() => {
-            nodecg.sendMessage('tournament_resetScores')
-        }, resetScoreTimeout)
+            nodecg.sendMessage('tournament_resetScores');
+        }, resetScoreTimeout);
 
         //When a set ends and auto scoring is automatically managed, we will disable it here
-        if (automateAutoScoreToggle) tournament.value.autoScore = false
+        if (automateAutoScoreToggle) tournament.value.autoScore = false;
     }
 
-    tournament.value.matchScored = true
-})
+    tournament.value.matchScored = true;
+});

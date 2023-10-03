@@ -1,13 +1,13 @@
-import { html, css } from 'lit'
+import { html, css } from 'lit';
 
-import '@polymer/iron-icons/hardware-icons.js'
-import '@polymer/iron-icons/iron-icons.js'
-import '@polymer/paper-button/paper-button.js'
-import '@polymer/paper-styles/paper-styles.js'
+import '@polymer/iron-icons/hardware-icons.js';
+import '@polymer/iron-icons/iron-icons.js';
+import '@polymer/paper-button/paper-button.js';
+import '@polymer/paper-styles/paper-styles.js';
 
-import '@vaadin/vaadin-button'
-import '@vaadin/vaadin-grid'
-import '@vaadin/vaadin-text-field'
+import '@vaadin/vaadin-button';
+import '@vaadin/vaadin-grid';
+import '@vaadin/vaadin-text-field';
 
 export const style = function () {
     return css`
@@ -36,8 +36,8 @@ export const style = function () {
             width: 190px;
             background-color: green;
         }
-    `
-}
+    `;
+};
 
 export const template = function () {
     return html`
@@ -47,8 +47,8 @@ export const template = function () {
         <div class="form">
             <vaadin-button id="addButton" theme="primary"> Add </vaadin-button>
         </div>
-    `
-}
+    `;
+};
 
 /*
 <p>Hello, ${this.name} rep value is: ${this.test}!</p>

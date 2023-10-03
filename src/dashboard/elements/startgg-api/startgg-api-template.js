@@ -1,19 +1,19 @@
-import { html, css } from 'lit'
+import { html, css } from 'lit';
 
-import '@polymer/iron-icons/hardware-icons.js'
-import '@polymer/iron-icons/iron-icons.js'
+import '@polymer/iron-icons/hardware-icons.js';
+import '@polymer/iron-icons/iron-icons.js';
 
-import '@vaadin/vaadin-template-renderer'
-import '@vaadin/vaadin-ordered-layout/vaadin-vertical-layout'
-import '@vaadin/vaadin-ordered-layout/vaadin-horizontal-layout'
-import '@vaadin/vaadin-button'
-import '@vaadin/vaadin-combo-box'
-import '@vaadin/vaadin-grid'
-import '@vaadin/vaadin-text-field'
-import '@vaadin/vaadin-text-field/vaadin-integer-field.js'
-import '@vaadin/vaadin-text-field/vaadin-number-field.js'
-import '@vaadin/vaadin-text-field/vaadin-password-field.js'
-import '@vaadin/vaadin-select'
+import '@vaadin/vaadin-template-renderer';
+import '@vaadin/vaadin-ordered-layout/vaadin-vertical-layout';
+import '@vaadin/vaadin-ordered-layout/vaadin-horizontal-layout';
+import '@vaadin/vaadin-button';
+import '@vaadin/vaadin-combo-box';
+import '@vaadin/vaadin-grid';
+import '@vaadin/vaadin-text-field';
+import '@vaadin/vaadin-text-field/vaadin-integer-field.js';
+import '@vaadin/vaadin-text-field/vaadin-number-field.js';
+import '@vaadin/vaadin-text-field/vaadin-password-field.js';
+import '@vaadin/vaadin-select';
 
 export const style = function () {
     return css`
@@ -73,8 +73,8 @@ export const style = function () {
             margin-right: auto;
             margin-top: 3px;
         }
-    `
-}
+    `;
+};
 
 export const template = function () {
     return html`
@@ -154,5 +154,5 @@ export const template = function () {
         </vaadin-vertical-layout>
 
         <vaadin-vertical-layout id="layoutButtom"> </vaadin-vertical-layout>
-    `
-}
+    `;
+};

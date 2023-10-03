@@ -1,23 +1,23 @@
-'use strict'
+'use strict';
 
 //Imports
-const OBSWebSocket = require('obs-websocket-js').default
+const OBSWebSocket = require('obs-websocket-js').default;
 
 //Ours
-const nodecg = require('./util/nodecg-api-context').get()
+const nodecg = require('./util/nodecg-api-context').get();
 
 //Replicants
-const obs = nodecg.Replicant('obs')
-const slippi = nodecg.Replicant('slippi')
-const tournament = nodecg.Replicant('tournament')
+const obs = nodecg.Replicant('obs');
+const slippi = nodecg.Replicant('slippi');
+const tournament = nodecg.Replicant('tournament');
 
 //Statics
-const obsWebSocket = new OBSWebSocket()
+const obsWebSocket = new OBSWebSocket();
 
 //Dynamics
-var isConnecting = false
-var waitSceneTimer = null
-var sceneSwitchTimer = null
+var isConnecting = false;
+var waitSceneTimer = null;
+var sceneSwitchTimer = null;
 
 //Utils
 function checkAndSetNewScene(sceneName) {
@@ -27,8 +27,8 @@ function checkAndSetNewScene(sceneName) {
     ) {
         //Cancel any existing pending scene switches
         if (sceneSwitchTimer) {
-            clearTimeout(sceneSwitchTimer)
-            sceneSwitchTimer = null
+            clearTimeout(sceneSwitchTimer);
+            sceneSwitchTimer = null;
         }
 
         //Delay scene switch if desired by the bundle config
@@ -37,25 +37,25 @@ function checkAndSetNewScene(sceneName) {
             nodecg.bundleConfig.obs.scenes &&
             sceneName in nodecg.bundleConfig.obs.scenes
                 ? nodecg.bundleConfig.obs.scenes[sceneName].delay
-                : null
+                : null;
 
         if (typeof delay == 'number' && delay > 0) {
             sceneSwitchTimer = setTimeout(() => {
-                obs.value.scenes.activeScene = sceneName
-            }, Math.round(delay * 1000))
+                obs.value.scenes.activeScene = sceneName;
+            }, Math.round(delay * 1000));
         } else {
-            obs.value.scenes.activeScene = sceneName
+            obs.value.scenes.activeScene = sceneName;
         }
     }
 }
 
 function checkSceneSwitchConditions() {
-    let targetScene = ''
+    let targetScene = '';
 
     if (!tournament.value.autoScore && !slippi.value.gameInfo.finished) {
-        targetScene = 'Handwarmer'
+        targetScene = 'Handwarmer';
     } else if (tournament.value.autoScore && !slippi.value.gameInfo.finished) {
-        targetScene = 'Tournament'
+        targetScene = 'Tournament';
     } else if (
         slippi.value.gameInfo.finished &&
         tournament.value.matchScored &&
@@ -64,7 +64,7 @@ function checkSceneSwitchConditions() {
     ) {
         //Skip stats scenes in Doubles mode as there are no stats available, go straight to Wait Scene
         if (slippi.value.gameInfo.isTeams) {
-            targetScene = 'Wait'
+            targetScene = 'Wait';
         } else {
             //If enabled, start Wait Scene timer no matter what if needed in Singles mode
             if (!waitSceneTimer) {
@@ -74,12 +74,12 @@ function checkSceneSwitchConditions() {
                     'Wait' in nodecg.bundleConfig.obs.scenes &&
                     'autoSwitch' in nodecg.bundleConfig.obs.scenes['Wait']
                         ? nodecg.bundleConfig.obs.scenes['Wait'].autoSwitch
-                        : true
+                        : true;
 
                 if (switchEnabled) {
                     waitSceneTimer = setTimeout(() => {
-                        checkAndSetNewScene('Wait')
-                    }, obs.value.scenes.waitTime)
+                        checkAndSetNewScene('Wait');
+                    }, obs.value.scenes.waitTime);
                 }
             }
 
@@ -93,14 +93,14 @@ function checkSceneSwitchConditions() {
                     tournament.value.scores[1].score <
                         tournament.value.bestOf / 2
                 ) {
-                    targetScene = 'Game End'
+                    targetScene = 'Game End';
                 } else if (
                     tournament.value.scores[0].score >
                         tournament.value.bestOf / 2 ||
                     tournament.value.scores[1].score >
                         tournament.value.bestOf / 2
                 ) {
-                    targetScene = 'Set End'
+                    targetScene = 'Set End';
                 }
             }
         }
@@ -114,149 +114,149 @@ function checkSceneSwitchConditions() {
             targetScene in nodecg.bundleConfig.obs.scenes &&
             'autoSwitch' in nodecg.bundleConfig.obs.scenes[targetScene]
                 ? nodecg.bundleConfig.obs.scenes[targetScene].autoSwitch
-                : true
+                : true;
 
         if (!switchEnabled) {
             let gameEnabled =
                 'Game End' in nodecg.bundleConfig.obs.scenes &&
                 'autoSwitch' in nodecg.bundleConfig.obs.scenes['Game End']
                     ? nodecg.bundleConfig.obs.scenes['Game End'].autoSwitch
-                    : true
+                    : true;
             let setEnabled =
                 'Set End' in nodecg.bundleConfig.obs.scenes &&
                 'autoSwitch' in nodecg.bundleConfig.obs.scenes['Set End']
                     ? nodecg.bundleConfig.obs.scenes['Set End'].autoSwitch
-                    : true
+                    : true;
 
             //Swap to another fitting end scene if possible
             if (targetScene == 'Game End' && setEnabled) {
-                targetScene = 'Set End'
+                targetScene = 'Set End';
             } else if (targetScene == 'Set End' && gameEnabled) {
-                targetScene = 'Game End'
+                targetScene = 'Game End';
             } else {
                 //Block the switch if disabled entirely
-                targetScene = ''
+                targetScene = '';
             }
         }
     }
 
-    return targetScene
+    return targetScene;
 }
 
 function autoDetermineCorrectScene(sceneNameOverride = '') {
-    if (isConnecting || !obs.value.connection.connected) return
+    if (isConnecting || !obs.value.connection.connected) return;
 
-    if (!obs.value.scenes.autoSwitch) return
+    if (!obs.value.scenes.autoSwitch) return;
 
     let newScene =
         sceneNameOverride === ''
             ? checkSceneSwitchConditions()
-            : sceneNameOverride
+            : sceneNameOverride;
     if (newScene?.length > 0) {
-        checkAndSetNewScene(newScene)
+        checkAndSetNewScene(newScene);
     }
 }
 
 //Replicant Listeners
 obs.on('change', async (newVal, oldVal) => {
-    if (!newVal) return
+    if (!newVal) return;
 
-    if (!newVal.scenes.activeScene) return
+    if (!newVal.scenes.activeScene) return;
 
-    if (isConnecting || !obs.value.connection.connected) return
+    if (isConnecting || !obs.value.connection.connected) return;
 
     //User forced scene takes priority (ToDo: this is executed silently too often)
     if (!oldVal || newVal.scenes.activeScene != oldVal.scenes.activeScene) {
         try {
             await obsWebSocket.call('SetCurrentProgramScene', {
                 sceneName: newVal.scenes.activeScene,
-            })
+            });
         } catch (err) {
-            console.error('OBS failure to force scene:', err)
+            console.error('OBS failure to force scene:', err);
         }
     } else {
         //Auto checks second priority
-        autoDetermineCorrectScene()
+        autoDetermineCorrectScene();
     }
-})
+});
 
 slippi.on('change', (newVal, oldVal) => {
-    if (!newVal) return
+    if (!newVal) return;
 
     //Cancel/Reset Wait Scene Timer if a new game starts
     if (waitSceneTimer && !newVal.gameInfo.finished) {
-        clearTimeout(waitSceneTimer)
-        waitSceneTimer = null
+        clearTimeout(waitSceneTimer);
+        waitSceneTimer = null;
     }
 
-    autoDetermineCorrectScene()
-})
+    autoDetermineCorrectScene();
+});
 
 tournament.on('change', (newVal, oldVal) => {
-    if (!newVal) return
+    if (!newVal) return;
 
-    autoDetermineCorrectScene()
-})
+    autoDetermineCorrectScene();
+});
 
 //OBS Listeners
 //Events
 obsWebSocket.on('SwitchScenes', (data) => {
-    console.log(`OBS new active scene: ${data.sceneName}`)
-    obs.value.scenes.activeScene = data.sceneName
-})
+    console.log(`OBS new active scene: ${data.sceneName}`);
+    obs.value.scenes.activeScene = data.sceneName;
+});
 
 //Native
 obsWebSocket.on('ConnectionOpened', (data) => {
-    obs.value.connection.connected = true
-    isConnecting = false
-})
+    obs.value.connection.connected = true;
+    isConnecting = false;
+});
 
 obsWebSocket.on('ConnectionClosed', (data) => {
-    obs.value.connection.connected = false
-    console.log('OBS connection closed')
-})
+    obs.value.connection.connected = false;
+    console.log('OBS connection closed');
+});
 
 obsWebSocket.on('AuthenticationSuccess', (data) => {
-    console.log('OBS auth ok')
-})
+    console.log('OBS auth ok');
+});
 
 obsWebSocket.on('AuthenticationFailure', (data) => {
-    console.log('OBS auth failure')
-})
+    console.log('OBS auth failure');
+});
 
 //NodeCG Listeners
 nodecg.listenFor('obs_connect', async () => {
-    if (isConnecting || obs.value.connection.connected) return
+    if (isConnecting || obs.value.connection.connected) return;
 
-    const address = `ws://${obs.value.connection.address}:${obs.value.connection.port}`
-    const password = obs.value.connection.password ?? undefined
+    const address = `ws://${obs.value.connection.address}:${obs.value.connection.port}`;
+    const password = obs.value.connection.password ?? undefined;
 
     try {
-        isConnecting = true
+        isConnecting = true;
         const { obsWebSocketVersion } = await obsWebSocket.connect(
             address,
             password
-        )
-        console.log(`OBS connection opened. Version: ${obsWebSocketVersion}`)
+        );
+        console.log(`OBS connection opened. Version: ${obsWebSocketVersion}`);
     } catch (error) {
-        console.error('Failed to connect', error.code, error.message)
-        isConnecting = false
-        return
+        console.error('Failed to connect', error.code, error.message);
+        isConnecting = false;
+        return;
     }
-})
+});
 
 nodecg.listenFor('obs_disconnect', () => {
-    if (isConnecting || !obs.value.connection.connected) return
+    if (isConnecting || !obs.value.connection.connected) return;
 
-    obsWebSocket.disconnect()
-})
+    obsWebSocket.disconnect();
+});
 
 nodecg.listenFor('obs_autoSetScene', (data) => {
-    autoDetermineCorrectScene(data.sceneName)
-})
+    autoDetermineCorrectScene(data.sceneName);
+});
 
 //Auto try to connect on boot if connection status was last true
 if (obs.value.connection.connected) {
-    obs.value.connection.connected = false
-    nodecg.sendMessage('obs_connect')
+    obs.value.connection.connected = false;
+    nodecg.sendMessage('obs_connect');
 }

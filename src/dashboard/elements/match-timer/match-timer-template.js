@@ -1,11 +1,11 @@
-import { html, css } from 'lit'
+import { html, css } from 'lit';
 
-import '@polymer/iron-icons/hardware-icons.js'
-import '@polymer/iron-icons/iron-icons.js'
+import '@polymer/iron-icons/hardware-icons.js';
+import '@polymer/iron-icons/iron-icons.js';
 
-import '@vaadin/vaadin-button'
-import '@vaadin/vaadin-grid'
-import '@vaadin/vaadin-text-field'
+import '@vaadin/vaadin-button';
+import '@vaadin/vaadin-grid';
+import '@vaadin/vaadin-text-field';
 
 export const style = function () {
     return css`
@@ -25,9 +25,9 @@ export const style = function () {
             font-size: 20px;
             font-weight: bolder;
         }
-    `
-}
+    `;
+};
 
 export const template = function () {
-    return html` <p>Timer: <span class="boldText">${this.time}</span></p> `
-}
+    return html` <p>Timer: <span class="boldText">${this.time}</span></p> `;
+};
