@@ -8,12 +8,12 @@
  * @property {Number} framerate
  */
 class TimeObject {
-    private rawFrames: number;
-    private minutes: number;
-    private seconds: number;
-    private milliseconds: number;
-    private formatted: string;
-    private framerate: number;
+    private rawFrames: number = 0;
+    private minutes: number = 0;
+    private seconds: number = 0;
+    private milliseconds: number = 0;
+    private formatted: string = "";
+    private framerate: number = 60;
     /**
      * Constructs a new TimeObject with the provided number of frames
      * @param {Number} [frames = 0] - The value to instantiate this TimeObject with, in frames.

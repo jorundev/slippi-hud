@@ -33,7 +33,7 @@ const apiBaseURL = 'https://api.start.gg/gql/alpha';
 const updateInterval = 30 * 1000;
 
 //Dynamics
-var apiTimeout;
+var apiTimeout: NodeJS.Timeout | null = null;
 var lastPulledSetId: number | null = null;
 
 //Templates
@@ -262,8 +262,17 @@ function isValidPlayersValue(
     return false;
 }
 
+type RoundToTextTable = {
+    winners: {
+        [key: number]: string,
+    },
+    losers: {
+        [key: number]: string,
+    },
+};
+
 //Round calculation helper table
-const roundToTextTable = {
+const roundToTextTable: RoundToTextTable = {
     winners: {
         2: 'Grand Finals',
         3: 'Winners Finals',
@@ -278,7 +287,7 @@ const roundToTextTable = {
 };
 
 //Exit if no key set
-if (!apiKey) throw new Error('No StartGG API key provided');
+//if (!apiKey) throw new Error('No StartGG API key provided');
 
 //Functions
 function refreshTimeout() {
@@ -362,9 +371,9 @@ async function pullEventStandings(
 }
 
 async function pullLatestMatchDataFromEntrant(
-    entrantID,
-    pageNumber,
-    entriesPerPage
+    entrantID: number,
+    pageNumber: number,
+    entriesPerPage: number
 ) {
     const json = structuredClone(entrantSetQueryTemplateGQL);
     json.variables.entrantId = entrantID;
@@ -557,7 +566,7 @@ async function updateByStreamQueue(tournyData: SGGTournamentQueryResponse) {
                     activeQueue.activeSet.round! + 2
                 )}`;
             } else {
-                let round =
+                const round =
                     activeQueue.activeSet.round! >= 0
                         ? roundToTextTable.winners[
                               activeQueue.activeSet.lPlacement!
@@ -867,7 +876,7 @@ nodecg.listenFor('api_startgg_generateTopStandings', (value, ack) => {
 
 //Utils
 function convertStartGGCharacterIdToSlippiId(charId: number): number {
-    const startToSlippiCharTable = {
+    const startToSlippiCharTable: {[key: number]: number} = {
         1: 5,
         2: 0,
         3: 1,
