@@ -14,5 +14,6 @@ export type Players = {
     country?: string;
     countryId?: number;
     sponsor?: string;
+    initialSeeding?: number;
     [k: string]: unknown;
 }[];

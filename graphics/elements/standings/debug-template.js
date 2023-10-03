@@ -139,8 +139,16 @@ export const template = function () {
                       "${this.playerData[0].player.sponsor}"
                   </div>
                   <div>
-                      this.playerData[0].player.sponsor
+                      this.playerData[0].player.pronouns
                       "${this.playerData[0].player.pronouns}"
+                  </div>
+                  <div>
+                      this.playerData[0].player.country
+                      "${this.playerData[0].player.country}"
+                  </div>
+                  <div>
+                      this.playerData[0].player.seeding
+                      "${this.playerData[0].player.seeding}"
                   </div>
                   <div>
                       this.playerData[0].slippi.id
@@ -279,6 +287,96 @@ export const template = function () {
                       "${this.playerData[0].slippi.controller.pressedButtons
                           .D_LEFT}"
                   </div>
+                  <div>
+                      this.playerData[0].slippi.misc.actionStateId
+                      "${this.playerData[0].slippi.misc.actionStateId}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.isFollower
+                      "${this.playerData[0].slippi.misc.isFollower}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.positionX
+                      "${this.playerData[0].slippi.misc.positionX}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.positionY
+                      "${this.playerData[0].slippi.misc.positionY}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.facingDirection
+                      "${this.playerData[0].slippi.misc.facingDirection}" -1 is
+                      left, +1 is right
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.shieldSize
+                      "${this.playerData[0].slippi.misc.shieldSize}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.lastAttackLanded
+                      "${this.playerData[0].slippi.misc.lastAttackLanded}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.currentComboCount
+                      "${this.playerData[0].slippi.misc.currentComboCount}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.lastHitBy
+                      "${this.playerData[0].slippi.misc.lastHitBy}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.actionStateCounter
+                      "${this.playerData[0].slippi.misc.actionStateCounter}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.miscActionState
+                      "${this.playerData[0].slippi.misc.miscActionState}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.isAirborne
+                      "${this.playerData[0].slippi.misc.isAirborne}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.lastGroundId
+                      "${this.playerData[0].slippi.misc.lastGroundId}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.jumpsRemaining
+                      "${this.playerData[0].slippi.misc.jumpsRemaining}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.lCancelStatus
+                      "${this.playerData[0].slippi.misc.lCancelStatus}" 0 none,
+                      1 success, 2 failure
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.hurtboxCollisionState
+                      "${this.playerData[0].slippi.misc.hurtboxCollisionState}"
+                      0 vulnerable, 1 invulnerable, 2 intangible
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.selfInducedSpeeds.airX
+                      "${this.playerData[0].slippi.misc.selfInducedSpeeds.airX}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.selfInducedSpeeds.y
+                      "${this.playerData[0].slippi.misc.selfInducedSpeeds.y}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.selfInducedSpeeds.attackX
+                      "${this.playerData[0].slippi.misc.selfInducedSpeeds
+                          .attackX}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.selfInducedSpeeds.attackY
+                      "${this.playerData[0].slippi.misc.selfInducedSpeeds
+                          .attackY}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.selfInducedSpeeds.groundX
+                      "${this.playerData[0].slippi.misc.selfInducedSpeeds
+                          .groundX}"
+                  </div>
 
                   <div style="font-weight: bold;">PLAYER 2</div>
                   <div>
@@ -290,8 +388,16 @@ export const template = function () {
                       "${this.playerData[1].player.sponsor}"
                   </div>
                   <div>
-                      this.playerData[1].player.sponsor
+                      this.playerData[1].player.pronouns
                       "${this.playerData[1].player.pronouns}"
+                  </div>
+                  <div>
+                      this.playerData[1].player.country
+                      "${this.playerData[1].player.country}"
+                  </div>
+                  <div>
+                      this.playerData[1].player.seeding
+                      "${this.playerData[1].player.seeding}"
                   </div>
                   <div>
                       this.playerData[1].slippi.id
@@ -431,6 +537,96 @@ export const template = function () {
                       "${this.playerData[1].slippi.controller.pressedButtons
                           .D_LEFT}"
                   </div>
+                  <div>
+                      this.playerData[1].slippi.misc.actionStateId
+                      "${this.playerData[1].slippi.misc.actionStateId}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.isFollower
+                      "${this.playerData[1].slippi.misc.isFollower}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.positionX
+                      "${this.playerData[1].slippi.misc.positionX}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.positionY
+                      "${this.playerData[1].slippi.misc.positionY}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.facingDirection
+                      "${this.playerData[1].slippi.misc.facingDirection}" -1 is
+                      left, +1 is right
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.shieldSize
+                      "${this.playerData[1].slippi.misc.shieldSize}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.lastAttackLanded
+                      "${this.playerData[1].slippi.misc.lastAttackLanded}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.currentComboCount
+                      "${this.playerData[1].slippi.misc.currentComboCount}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.lastHitBy
+                      "${this.playerData[1].slippi.misc.lastHitBy}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.actionStateCounter
+                      "${this.playerData[1].slippi.misc.actionStateCounter}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.miscActionState
+                      "${this.playerData[1].slippi.misc.miscActionState}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.isAirborne
+                      "${this.playerData[1].slippi.misc.isAirborne}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.lastGroundId
+                      "${this.playerData[1].slippi.misc.lastGroundId}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.jumpsRemaining
+                      "${this.playerData[1].slippi.misc.jumpsRemaining}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.lCancelStatus
+                      "${this.playerData[1].slippi.misc.lCancelStatus}" 0 none,
+                      1 success, 2 failure
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.hurtboxCollisionState
+                      "${this.playerData[1].slippi.misc.hurtboxCollisionState}"
+                      0 vulnerable, 1 invulnerable, 2 intangible
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.selfInducedSpeeds.airX
+                      "${this.playerData[1].slippi.misc.selfInducedSpeeds.airX}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.selfInducedSpeeds.y
+                      "${this.playerData[1].slippi.misc.selfInducedSpeeds.y}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.selfInducedSpeeds.attackX
+                      "${this.playerData[1].slippi.misc.selfInducedSpeeds
+                          .attackX}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.selfInducedSpeeds.attackY
+                      "${this.playerData[1].slippi.misc.selfInducedSpeeds
+                          .attackY}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.selfInducedSpeeds.groundX
+                      "${this.playerData[1].slippi.misc.selfInducedSpeeds
+                          .groundX}"
+                  </div>
 
                   <div style="font-weight: bold;">TEAM 2</div>
 
@@ -458,8 +654,16 @@ export const template = function () {
                       "${this.playerData[2].player.sponsor}"
                   </div>
                   <div>
-                      this.playerData[2].player.sponsor
+                      this.playerData[2].player.pronouns
                       "${this.playerData[2].player.pronouns}"
+                  </div>
+                  <div>
+                      this.playerData[2].player.country
+                      "${this.playerData[2].player.country}"
+                  </div>
+                  <div>
+                      this.playerData[2].player.seeding
+                      "${this.playerData[2].player.seeding}"
                   </div>
                   <div>
                       this.playerData[2].slippi.id
@@ -599,6 +803,96 @@ export const template = function () {
                       "${this.playerData[2].slippi.controller.pressedButtons
                           .D_LEFT}"
                   </div>
+                  <div>
+                      this.playerData[2].slippi.misc.actionStateId
+                      "${this.playerData[2].slippi.misc.actionStateId}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.isFollower
+                      "${this.playerData[2].slippi.misc.isFollower}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.positionX
+                      "${this.playerData[2].slippi.misc.positionX}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.positionY
+                      "${this.playerData[2].slippi.misc.positionY}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.facingDirection
+                      "${this.playerData[2].slippi.misc.facingDirection}" -1 is
+                      left, +1 is right
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.shieldSize
+                      "${this.playerData[2].slippi.misc.shieldSize}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.lastAttackLanded
+                      "${this.playerData[2].slippi.misc.lastAttackLanded}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.currentComboCount
+                      "${this.playerData[2].slippi.misc.currentComboCount}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.lastHitBy
+                      "${this.playerData[2].slippi.misc.lastHitBy}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.actionStateCounter
+                      "${this.playerData[2].slippi.misc.actionStateCounter}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.miscActionState
+                      "${this.playerData[2].slippi.misc.miscActionState}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.isAirborne
+                      "${this.playerData[2].slippi.misc.isAirborne}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.lastGroundId
+                      "${this.playerData[2].slippi.misc.lastGroundId}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.jumpsRemaining
+                      "${this.playerData[2].slippi.misc.jumpsRemaining}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.lCancelStatus
+                      "${this.playerData[2].slippi.misc.lCancelStatus}" 0 none,
+                      1 success, 2 failure
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.hurtboxCollisionState
+                      "${this.playerData[2].slippi.misc.hurtboxCollisionState}"
+                      0 vulnerable, 1 invulnerable, 2 intangible
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.selfInducedSpeeds.airX
+                      "${this.playerData[2].slippi.misc.selfInducedSpeeds.airX}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.selfInducedSpeeds.y
+                      "${this.playerData[2].slippi.misc.selfInducedSpeeds.y}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.selfInducedSpeeds.attackX
+                      "${this.playerData[2].slippi.misc.selfInducedSpeeds
+                          .attackX}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.selfInducedSpeeds.attackY
+                      "${this.playerData[2].slippi.misc.selfInducedSpeeds
+                          .attackY}"
+                  </div>
+                  <div>
+                      this.playerData[2].slippi.misc.selfInducedSpeeds.groundX
+                      "${this.playerData[2].slippi.misc.selfInducedSpeeds
+                          .groundX}"
+                  </div>
 
                   <div style="font-weight: bold;">PLAYER 4</div>
                   <div>
@@ -610,8 +904,16 @@ export const template = function () {
                       "${this.playerData[3].player.sponsor}"
                   </div>
                   <div>
-                      this.playerData[3].player.sponsor
+                      this.playerData[3].player.pronouns
                       "${this.playerData[3].player.pronouns}"
+                  </div>
+                  <div>
+                      this.playerData[3].player.country
+                      "${this.playerData[3].player.country}"
+                  </div>
+                  <div>
+                      this.playerData[3].player.seeding
+                      "${this.playerData[3].player.seeding}"
                   </div>
                   <div>
                       this.playerData[3].slippi.id
@@ -751,6 +1053,96 @@ export const template = function () {
                       "${this.playerData[3].slippi.controller.pressedButtons
                           .D_LEFT}"
                   </div>
+                  <div>
+                      this.playerData[3].slippi.misc.actionStateId
+                      "${this.playerData[3].slippi.misc.actionStateId}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.isFollower
+                      "${this.playerData[3].slippi.misc.isFollower}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.positionX
+                      "${this.playerData[3].slippi.misc.positionX}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.positionY
+                      "${this.playerData[3].slippi.misc.positionY}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.facingDirection
+                      "${this.playerData[3].slippi.misc.facingDirection}" -1 is
+                      left, +1 is right
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.shieldSize
+                      "${this.playerData[3].slippi.misc.shieldSize}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.lastAttackLanded
+                      "${this.playerData[3].slippi.misc.lastAttackLanded}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.currentComboCount
+                      "${this.playerData[3].slippi.misc.currentComboCount}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.lastHitBy
+                      "${this.playerData[3].slippi.misc.lastHitBy}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.actionStateCounter
+                      "${this.playerData[3].slippi.misc.actionStateCounter}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.miscActionState
+                      "${this.playerData[3].slippi.misc.miscActionState}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.isAirborne
+                      "${this.playerData[3].slippi.misc.isAirborne}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.lastGroundId
+                      "${this.playerData[3].slippi.misc.lastGroundId}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.jumpsRemaining
+                      "${this.playerData[3].slippi.misc.jumpsRemaining}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.lCancelStatus
+                      "${this.playerData[3].slippi.misc.lCancelStatus}" 0 none,
+                      1 success, 2 failure
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.hurtboxCollisionState
+                      "${this.playerData[3].slippi.misc.hurtboxCollisionState}"
+                      0 vulnerable, 1 invulnerable, 2 intangible
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.selfInducedSpeeds.airX
+                      "${this.playerData[3].slippi.misc.selfInducedSpeeds.airX}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.selfInducedSpeeds.y
+                      "${this.playerData[3].slippi.misc.selfInducedSpeeds.y}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.selfInducedSpeeds.attackX
+                      "${this.playerData[3].slippi.misc.selfInducedSpeeds
+                          .attackX}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.selfInducedSpeeds.attackY
+                      "${this.playerData[3].slippi.misc.selfInducedSpeeds
+                          .attackY}"
+                  </div>
+                  <div>
+                      this.playerData[3].slippi.misc.selfInducedSpeeds.groundX
+                      "${this.playerData[3].slippi.misc.selfInducedSpeeds
+                          .groundX}"
+                  </div>
               `
             : html`
                   <div style="font-weight: bold;">Singles</div>
@@ -764,8 +1156,16 @@ export const template = function () {
                       "${this.playerData[0].player.sponsor}"
                   </div>
                   <div>
-                      this.playerData[0].player.sponsor
+                      this.playerData[0].player.pronouns
                       "${this.playerData[0].player.pronouns}"
+                  </div>
+                  <div>
+                      this.playerData[0].player.country
+                      "${this.playerData[0].player.country}"
+                  </div>
+                  <div>
+                      this.playerData[0].player.seeding
+                      "${this.playerData[0].player.seeding}"
                   </div>
                   <div>
                       this.generalData.tournament.scores[0].score
@@ -904,6 +1304,96 @@ export const template = function () {
                       "${this.playerData[0].slippi.controller.pressedButtons
                           .D_LEFT}"
                   </div>
+                  <div>
+                      this.playerData[0].slippi.misc.actionStateId
+                      "${this.playerData[0].slippi.misc.actionStateId}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.isFollower
+                      "${this.playerData[0].slippi.misc.isFollower}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.positionX
+                      "${this.playerData[0].slippi.misc.positionX}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.positionY
+                      "${this.playerData[0].slippi.misc.positionY}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.facingDirection
+                      "${this.playerData[0].slippi.misc.facingDirection}" -1 is
+                      left, +1 is right
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.shieldSize
+                      "${this.playerData[0].slippi.misc.shieldSize}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.lastAttackLanded
+                      "${this.playerData[0].slippi.misc.lastAttackLanded}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.currentComboCount
+                      "${this.playerData[0].slippi.misc.currentComboCount}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.lastHitBy
+                      "${this.playerData[0].slippi.misc.lastHitBy}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.actionStateCounter
+                      "${this.playerData[0].slippi.misc.actionStateCounter}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.miscActionState
+                      "${this.playerData[0].slippi.misc.miscActionState}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.isAirborne
+                      "${this.playerData[0].slippi.misc.isAirborne}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.lastGroundId
+                      "${this.playerData[0].slippi.misc.lastGroundId}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.jumpsRemaining
+                      "${this.playerData[0].slippi.misc.jumpsRemaining}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.lCancelStatus
+                      "${this.playerData[0].slippi.misc.lCancelStatus}" 0 none,
+                      1 success, 2 failure
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.hurtboxCollisionState
+                      "${this.playerData[0].slippi.misc.hurtboxCollisionState}"
+                      0 vulnerable, 1 invulnerable, 2 intangible
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.selfInducedSpeeds.airX
+                      "${this.playerData[0].slippi.misc.selfInducedSpeeds.airX}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.selfInducedSpeeds.y
+                      "${this.playerData[0].slippi.misc.selfInducedSpeeds.y}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.selfInducedSpeeds.attackX
+                      "${this.playerData[0].slippi.misc.selfInducedSpeeds
+                          .attackX}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.selfInducedSpeeds.attackY
+                      "${this.playerData[0].slippi.misc.selfInducedSpeeds
+                          .attackY}"
+                  </div>
+                  <div>
+                      this.playerData[0].slippi.misc.selfInducedSpeeds.groundX
+                      "${this.playerData[0].slippi.misc.selfInducedSpeeds
+                          .groundX}"
+                  </div>
                   <div style="font-weight: bold;">PLAYER 2</div>
                   <div>
                       this.playerData[1].player.name
@@ -914,8 +1404,16 @@ export const template = function () {
                       "${this.playerData[1].player.sponsor}"
                   </div>
                   <div>
-                      this.playerData[1].player.sponsor
+                      this.playerData[1].player.pronouns
                       "${this.playerData[1].player.pronouns}"
+                  </div>
+                  <div>
+                      this.playerData[1].player.country
+                      "${this.playerData[1].player.country}"
+                  </div>
+                  <div>
+                      this.playerData[1].player.seeding
+                      "${this.playerData[1].player.seeding}"
                   </div>
                   <div>
                       this.generalData.tournament.scores[1].score
@@ -1053,6 +1551,96 @@ export const template = function () {
                       this.playerData[1].slippi.controller.pressedButtons.D_LEFT
                       "${this.playerData[1].slippi.controller.pressedButtons
                           .D_LEFT}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.actionStateId
+                      "${this.playerData[1].slippi.misc.actionStateId}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.isFollower
+                      "${this.playerData[1].slippi.misc.isFollower}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.positionX
+                      "${this.playerData[1].slippi.misc.positionX}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.positionY
+                      "${this.playerData[1].slippi.misc.positionY}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.facingDirection
+                      "${this.playerData[1].slippi.misc.facingDirection}" -1 is
+                      left, +1 is right
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.shieldSize
+                      "${this.playerData[1].slippi.misc.shieldSize}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.lastAttackLanded
+                      "${this.playerData[1].slippi.misc.lastAttackLanded}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.currentComboCount
+                      "${this.playerData[1].slippi.misc.currentComboCount}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.lastHitBy
+                      "${this.playerData[1].slippi.misc.lastHitBy}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.actionStateCounter
+                      "${this.playerData[1].slippi.misc.actionStateCounter}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.miscActionState
+                      "${this.playerData[1].slippi.misc.miscActionState}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.isAirborne
+                      "${this.playerData[1].slippi.misc.isAirborne}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.lastGroundId
+                      "${this.playerData[1].slippi.misc.lastGroundId}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.jumpsRemaining
+                      "${this.playerData[1].slippi.misc.jumpsRemaining}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.lCancelStatus
+                      "${this.playerData[1].slippi.misc.lCancelStatus}" 0 none,
+                      1 success, 2 failure
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.hurtboxCollisionState
+                      "${this.playerData[1].slippi.misc.hurtboxCollisionState}"
+                      0 vulnerable, 1 invulnerable, 2 intangible
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.selfInducedSpeeds.airX
+                      "${this.playerData[1].slippi.misc.selfInducedSpeeds.airX}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.selfInducedSpeeds.y
+                      "${this.playerData[1].slippi.misc.selfInducedSpeeds.y}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.selfInducedSpeeds.attackX
+                      "${this.playerData[1].slippi.misc.selfInducedSpeeds
+                          .attackX}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.selfInducedSpeeds.attackY
+                      "${this.playerData[1].slippi.misc.selfInducedSpeeds
+                          .attackY}"
+                  </div>
+                  <div>
+                      this.playerData[1].slippi.misc.selfInducedSpeeds.groundX
+                      "${this.playerData[1].slippi.misc.selfInducedSpeeds
+                          .groundX}"
                   </div>
               `}
         <div style="font-weight: bold;">Game Stats</div>
@@ -1473,17 +2061,6 @@ export const template = function () {
         <div>this.statData.latestSet.sd2 "${this.statData.latestSet.sd2}"</div>
         <div>
             this.statData.latestSet.hdp2 "${this.statData.latestSet.hdp2}"
-        </div>
-        <div style="font-weight: bold;">Standings</div>
-        <div>
-            this.standingData[0].placement "${this.standingData[0].placement}"
-        </div>
-        <div>this.standingData[0].name "${this.standingData[0].name}"</div>
-        <div>
-            this.standingData[0].character "${this.standingData[0].character}"
-        </div>
-        <div>
-            this.standingData[0].twitter "${this.standingData[0].twitter}"
         </div>
     `
 }

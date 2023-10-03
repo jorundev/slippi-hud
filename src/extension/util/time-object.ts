@@ -12,7 +12,7 @@ class TimeObject {
     private minutes: number = 0;
     private seconds: number = 0;
     private milliseconds: number = 0;
-    private formatted: string = "";
+    private formatted: string = '';
     private framerate: number = 60;
     /**
      * Constructs a new TimeObject with the provided number of frames

@@ -35,6 +35,10 @@
 			"sponsor": {
 				"type": "string",
 				"default": ""
+			},
+			"initialSeeding": {
+				"type": "number",
+				"default": -1
 			}
 		}
 	},

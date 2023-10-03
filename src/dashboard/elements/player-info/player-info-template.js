@@ -41,30 +41,21 @@ export const style = function () {
 
         .playerIndex {
             width: 110px;
-            margin-left: 7px;
         }
 
         .teamId {
             width: 110px;
-            margin-left: 7px;
-        }
-
-        .playerName {
-            margin-left: 20px;
         }
 
         .playerPronouns {
             width: 150px;
-            margin-left: 20px;
         }
 
         .sponsorName {
             width: 145px;
-            margin-left: 20px;
         }
 
         .playerScore {
-            margin-left: 20px;
         }
 
         .teamPaddingTop {
@@ -88,6 +79,12 @@ export const style = function () {
             margin-top: 20px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        .singlesPlayerInfo {
+            gap: 7px;
+            justify-content: space-between;
+            width: 100%;
         }
     `;
 };
@@ -117,7 +114,9 @@ export const template = function () {
                           this.players,
                           (item) => item.id,
                           (item, index) => html`
-                              <vaadin-horizontal-layout>
+                              <vaadin-horizontal-layout
+                                  class="singlesPlayerInfo"
+                              >
                                   <vaadin-select
                                       id=${'index_' + item.id}
                                       class="playerIndex"
@@ -154,6 +153,15 @@ export const template = function () {
                                       @change=${this._pronounsChange}
                                   ></vaadin-text-field>
                                   <vaadin-text-field
+                                      id=${'country_' + item.id}
+                                      class="playerCountry"
+                                      theme="slippi-style"
+                                      label="Country"
+                                      value=${item.country}
+                                      clear-button-visible
+                                      @change=${this._countryChange}
+                                  ></vaadin-text-field>
+                                  <vaadin-text-field
                                       id=${'sponsor_' + item.id}
                                       class="sponsorName"
                                       theme="slippi-style"
@@ -173,6 +181,18 @@ export const template = function () {
                                       min="0"
                                       max="100"
                                       @change=${this._scoreChange}
+                                  ></vaadin-integer-field>
+                                  <vaadin-integer-field
+                                      id=${'seeding_' + item.id}
+                                      class="playerSeeding"
+                                      theme="slippi-style"
+                                      label="Initial Seeding"
+                                      value=${this.players[item.slippiIndex]
+                                          .seeding}
+                                      has-controls
+                                      min="0"
+                                      max="100"
+                                      @change=${this._seedingChange}
                                   ></vaadin-integer-field>
                               </vaadin-horizontal-layout>
                           `

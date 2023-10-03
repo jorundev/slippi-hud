@@ -139,8 +139,16 @@ export const template = function () {
                       "${this.playerData[0].player.sponsor}"
                   </div>
                   <div>
-                      this.playerData[0].player.sponsor
+                      this.playerData[0].player.pronouns
                       "${this.playerData[0].player.pronouns}"
+                  </div>
+                  <div>
+                      this.playerData[0].player.country
+                      "${this.playerData[0].player.country}"
+                  </div>
+                  <div>
+                      this.playerData[0].player.seeding
+                      "${this.playerData[0].player.seeding}"
                   </div>
                   <div>
                       this.playerData[0].slippi.id
@@ -380,8 +388,16 @@ export const template = function () {
                       "${this.playerData[1].player.sponsor}"
                   </div>
                   <div>
-                      this.playerData[1].player.sponsor
+                      this.playerData[1].player.pronouns
                       "${this.playerData[1].player.pronouns}"
+                  </div>
+                  <div>
+                      this.playerData[1].player.country
+                      "${this.playerData[1].player.country}"
+                  </div>
+                  <div>
+                      this.playerData[1].player.seeding
+                      "${this.playerData[1].player.seeding}"
                   </div>
                   <div>
                       this.playerData[1].slippi.id
@@ -638,8 +654,16 @@ export const template = function () {
                       "${this.playerData[2].player.sponsor}"
                   </div>
                   <div>
-                      this.playerData[2].player.sponsor
+                      this.playerData[2].player.pronouns
                       "${this.playerData[2].player.pronouns}"
+                  </div>
+                  <div>
+                      this.playerData[2].player.country
+                      "${this.playerData[2].player.country}"
+                  </div>
+                  <div>
+                      this.playerData[2].player.seeding
+                      "${this.playerData[2].player.seeding}"
                   </div>
                   <div>
                       this.playerData[2].slippi.id
@@ -880,8 +904,16 @@ export const template = function () {
                       "${this.playerData[3].player.sponsor}"
                   </div>
                   <div>
-                      this.playerData[3].player.sponsor
+                      this.playerData[3].player.pronouns
                       "${this.playerData[3].player.pronouns}"
+                  </div>
+                  <div>
+                      this.playerData[3].player.country
+                      "${this.playerData[3].player.country}"
+                  </div>
+                  <div>
+                      this.playerData[3].player.seeding
+                      "${this.playerData[3].player.seeding}"
                   </div>
                   <div>
                       this.playerData[3].slippi.id
@@ -1124,8 +1156,16 @@ export const template = function () {
                       "${this.playerData[0].player.sponsor}"
                   </div>
                   <div>
-                      this.playerData[0].player.sponsor
+                      this.playerData[0].player.pronouns
                       "${this.playerData[0].player.pronouns}"
+                  </div>
+                  <div>
+                      this.playerData[0].player.country
+                      "${this.playerData[0].player.country}"
+                  </div>
+                  <div>
+                      this.playerData[0].player.seeding
+                      "${this.playerData[0].player.seeding}"
                   </div>
                   <div>
                       this.generalData.tournament.scores[0].score
@@ -1364,8 +1404,16 @@ export const template = function () {
                       "${this.playerData[1].player.sponsor}"
                   </div>
                   <div>
-                      this.playerData[1].player.sponsor
+                      this.playerData[1].player.pronouns
                       "${this.playerData[1].player.pronouns}"
+                  </div>
+                  <div>
+                      this.playerData[1].player.country
+                      "${this.playerData[1].player.country}"
+                  </div>
+                  <div>
+                      this.playerData[1].player.seeding
+                      "${this.playerData[1].player.seeding}"
                   </div>
                   <div>
                       this.generalData.tournament.scores[1].score

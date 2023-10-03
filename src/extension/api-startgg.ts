@@ -264,11 +264,11 @@ function isValidPlayersValue(
 
 type RoundToTextTable = {
     winners: {
-        [key: number]: string,
-    },
+        [key: number]: string;
+    };
     losers: {
-        [key: number]: string,
-    },
+        [key: number]: string;
+    };
 };
 
 //Round calculation helper table
@@ -627,6 +627,22 @@ async function updateByStreamQueue(tournyData: SGGTournamentQueryResponse) {
                             players.value[playerIndex].pronouns =
                                 participant.user.genderPronoun;
 
+                        if (
+                            participant.user &&
+                            participant.user.location.country &&
+                            participant.user.location.countryId
+                        ) {
+                            players.value[playerIndex].country =
+                                participant.user.location.country;
+                            players.value[playerIndex].countryId =
+                                participant.user.location.countryId;
+                        }
+
+                        if (slot.entrant.initialSeedNum) {
+                            players.value[playerIndex].initialSeeding =
+                                slot.entrant.initialSeedNum;
+                        }
+
                         if (participant.prefix)
                             players.value[playerIndex].sponsor =
                                 participant.prefix;
@@ -876,7 +892,7 @@ nodecg.listenFor('api_startgg_generateTopStandings', (value, ack) => {
 
 //Utils
 function convertStartGGCharacterIdToSlippiId(charId: number): number {
-    const startToSlippiCharTable: {[key: number]: number} = {
+    const startToSlippiCharTable: { [key: number]: number } = {
         1: 5,
         2: 0,
         3: 1,

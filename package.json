@@ -90,7 +90,7 @@
       {
         "name": "players",
         "title": "Player Info",
-        "width": 6,
+        "width": 8,
         "file": "player-panel.html",
         "headerColor": "#2d4e8a",
         "workspace": "1. Main Dash"

@@ -427,6 +427,22 @@ export class PlayerInfo extends LitElement {
         players.value[playerIndex].pronouns = newPronouns;
     }
 
+    _countryChange(event) {
+        const newCountry = event.target.value;
+
+        const playerIndex = Number.parseInt(event.target.id.split('_')[1]);
+
+        players.value[playerIndex].country = newCountry;
+    }
+
+    _seedingChange(event) {
+        const newSeeding = event.target.value;
+
+        const playerIndex = Number.parseInt(event.target.id.split('_')[1]);
+
+        players.value[playerIndex].seeding = newSeeding;
+    }
+
     _sponsorNameChange(event) {
         let newSponsor = event.target.value;
 
@@ -528,10 +544,14 @@ export class PlayerInfo extends LitElement {
                     player1.name = player2.name;
                     player1.pronouns = player2.pronouns;
                     player1.sponsor = player2.sponsor;
+                    player1.country = player2.country;
+                    player1.seeding = player2.seeding;
 
                     player2.name = player1Copy.name;
                     player2.pronouns = player1Copy.pronouns;
                     player2.sponsor = player1Copy.sponsor;
+                    player2.country = player1Copy.country;
+                    player2.seeding = player1Copy.seeding;
                 }
 
                 i = i + (tournament.value.isTeams ? 0 : 1);
