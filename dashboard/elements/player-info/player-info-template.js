@@ -22,143 +22,285 @@ import '@vaadin/vaadin-select';
 
 export const style = function () {
 return css`
+  :host {
+  }
 
-:host {
-}
+  #layout {
+    height: 880px;
+	overflow-y: scroll;
+  }
 
-#layout {
-  height: 880px;
-}
+  #modeSelectCheckbox {
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-#modeSelectCheckbox {
-  margin-left: auto;
-  margin-right: auto;
-}
+  #lowerButtonsLayout {
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-#lowerButtonsLayout {
-  margin-top: 30px;
-  margin-left: auto;
-  margin-right: auto;
-}
+  .teamId {
+    width: 110px;
+  }
 
-.playerIndex {
-  width: 110px;
-  margin-left: 7px;
-}
+  .horizontal-controls {
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+  }
 
-.teamId {
-  width: 110px;
-  margin-left: 7px;
-}
+  .playerData {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    border: 1px solid #a5abc8;
+    border-radius: 8px;
+    padding: 16px;
+  }
 
-.playerName {
-  margin-left: 20px;
-}
+  .teamPaddingTop {
+    margin-bottom: 10px;
+  }
 
-.playerPronouns {
-  width: 150px;
-  margin-left: 20px;
-}
+  .teamPaddingBottom {
+    margin-bottom: 30px;
+  }
 
-.sponsorName {
-  width: 145px;
-  margin-left: 20px;
-}
+  #resetScoresButton {
+    background-color: red;
+  }
 
-.playerScore {
-  margin-left: 20px;
-}
+  #swapDataButton {
+    margin-left: 10px;
+    margin-right: auto;
+  }
 
-.teamPaddingTop {
-  margin-bottom: 10px;
-}
-
-.teamPaddingBottom {
-  margin-bottom: 30px;
-}
-
-#resetScoresButton {
-  background-color: red;
-}
-
-#swapDataButton {
-  margin-left: 10px;
-  margin-right: auto;
-}
-
-#autoScoreCheckbox {
-  margin-top: 20px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
+  #autoScoreCheckbox {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
 }
 
 export const template = function() {
 return html`
+  <vaadin-vertical-layout id="layout">
+    <vaadin-radio-group
+      id="modeSelectCheckbox"
+      theme="slippi-style"
+      label="Mode"
+      ?disabled=${!this.gameModeEnabled}
+      value=${this.gameMode}
+      @change=${this._gameModeChange}
+    >
+      <vaadin-radio-button value="singles" theme="slippi-style"
+        >Singles</vaadin-radio-button
+      >
+      <vaadin-radio-button value="doubles" theme="slippi-style"
+        >Doubles</vaadin-radio-button
+      >
+    </vaadin-radio-group>
 
-<vaadin-vertical-layout id="layout">
+    ${this.gameMode == 'singles'
+      ? html`
+          <vaadin-vertical-layout class="horizontal-controls">
+            ${repeat(
+              this.players,
+              (item) => item.id,
+              (item, index) => html`
+                <vaadin-horizontal-layout class="playerData">
+                  <vaadin-select
+                    id=${'index_' + item.id}
+                    class="playerIndex"
+                    theme="slippi-style"
+                    label="Port"
+                    value=${item.slippiIndex == 0 ? 'Lower' : 'Higher'}
+                    @change=${this._playerIndexChange}
+                  >
+                    <template>
+                      <vaadin-list-box>
+                        <vaadin-item>Lower</vaadin-item>
+                        <vaadin-item>Higher</vaadin-item>
+                      </vaadin-list-box>
+                    </template>
+                  </vaadin-select>
+                  <vaadin-text-field
+                    id=${'name_' + item.id}
+                    class="playerName"
+                    theme="slippi-style"
+                    label="Name"
+                    value=${item.name}
+                    clear-button-visible
+                    @change=${this._playerNameChange}
+                  ></vaadin-text-field>
+                  <vaadin-text-field
+                    id=${'country_' + item.id}
+                    class="playerCountry"
+                    theme="slippi-style"
+                    label="Country"
+                    value=${item.country}
+                    clear-button-visible
+                    @change=${this._countryChange}
+                  ></vaadin-text-field>
+                  <vaadin-text-field
+                    id=${'pronouns_' + item.id}
+                    class="playerPronouns"
+                    theme="slippi-style"
+                    label="Pronouns"
+                    value=${item.pronouns}
+                    clear-button-visible
+                    @change=${this._pronounsChange}
+                  ></vaadin-text-field>
+                  <vaadin-text-field
+                    id=${'sponsor_' + item.id}
+                    class="sponsorName"
+                    theme="slippi-style"
+                    label="Sponsor"
+                    value=${item.sponsor}
+                    clear-button-visible
+                    @change=${this._sponsorNameChange}
+                  ></vaadin-text-field>
+                  <vaadin-integer-field
+                    id=${'score_' + item.id}
+                    class="playerScore"
+                    theme="slippi-style"
+                    label="Score"
+                    value=${this.scores[item.slippiIndex].score}
+                    has-controls
+                    min="0"
+                    max="100"
+                    @change=${this._scoreChange}
+                  ></vaadin-integer-field>
+                </vaadin-horizontal-layout>
+              `,
+            )}
+          </vaadin-vertical-layout>
+        `
+      : html`
+          ${map(
+            range(this.teamCount),
+            (i) => html`
+              <span style="font-size: 20px; font-weight:bold"
+                >Team ${i + 1}</span
+              >
+              <vaadin-horizontal-layout class="horizontal-controls">
+                <vaadin-select
+                  id=${'teamId_' + i}
+                  class="teamId"
+                  theme="slippi-style"
+                  label="ID"
+                  value=${this.players[i * 2].teamId}
+                  @change=${this._teamIdChange}
+                ></vaadin-select>
+                <vaadin-integer-field
+                  id=${'teamScore_' + i}
+                  class="playerScore"
+                  theme="slippi-style"
+                  label="Score"
+                  value=${this._getTeamScore(i)}
+                  has-controls
+                  min="0"
+                  max="100"
+                  @change=${this._scoreChange}
+                ></vaadin-integer-field>
+              </vaadin-horizontal-layout>
 
-  <vaadin-radio-group id="modeSelectCheckbox" theme="slippi-style" label="Mode" ?disabled=${!this.gameModeEnabled} value=${this.gameMode} @change=${this._gameModeChange}>
-    <vaadin-radio-button value="singles" theme="slippi-style">Singles</vaadin-radio-button>
-    <vaadin-radio-button value="doubles" theme="slippi-style">Doubles</vaadin-radio-button>
-  </vaadin-radio-group>
-
-  ${this.gameMode == "singles" ? html`
-	${repeat(this.players, (item) => item.id, (item, index) => html`
-      <vaadin-horizontal-layout>
-	    <vaadin-select id=${'index_' + item.id} class="playerIndex" theme="slippi-style" label="Port" value=${item.slippiIndex == 0 ? "Lower" : "Higher"} @change=${this._playerIndexChange}>
-          <template>
-            <vaadin-list-box>
-              <vaadin-item>Lower</vaadin-item>
-              <vaadin-item>Higher</vaadin-item>
-            </vaadin-list-box>
-          </template>
-        </vaadin-select>
-        <vaadin-text-field id=${'name_' + item.id} class="playerName" theme="slippi-style" label="Name" value=${item.name} clear-button-visible @change=${this._playerNameChange}></vaadin-text-field>
-        <vaadin-text-field id=${'pronouns_' + item.id} class="playerPronouns" theme="slippi-style" label="Pronouns" value=${item.pronouns} clear-button-visible @change=${this._pronounsChange}></vaadin-text-field>
-        <vaadin-text-field id=${'sponsor_' + item.id} class="sponsorName" theme="slippi-style" label="Sponsor" value=${item.sponsor} clear-button-visible @change=${this._sponsorNameChange}></vaadin-text-field>
-        <vaadin-integer-field id=${'score_' + item.id} class="playerScore" theme="slippi-style" label="Score" value=${this.scores[item.slippiIndex].score} has-controls min="0" max="100" @change=${this._scoreChange}></vaadin-integer-field>
-      </vaadin-horizontal-layout>
-    `)}
-
-  ` : html`
-    ${map(range(this.teamCount), (i) => html`
-      <span style="font-size: 20px; font-weight:bold">Team ${i + 1}</span>
-      <vaadin-horizontal-layout>
-	    <vaadin-select id=${'teamId_' + i} class="teamId" theme="slippi-style" label="ID" value=${this.players[i * 2].teamId} @change=${this._teamIdChange}></vaadin-select>
-        <vaadin-integer-field id=${'teamScore_' + i} class="playerScore" theme="slippi-style" label="Score" value=${this._getTeamScore(i)} has-controls min="0" max="100" @change=${this._scoreChange}></vaadin-integer-field>
-      </vaadin-horizontal-layout>
-
-	  <span class="teamPaddingTop"></span>
-      <span style="font-weight:bold">Players:</span>
-      ${repeat(this.players.slice(i * 2, (i * 2) + 2), (item) => item.id, (item, index) => html`
-        <vaadin-horizontal-layout>
-	      <vaadin-select id=${'index_' + item.id} class="playerIndex" theme="slippi-style" label="Port" value=${item.slippiIndex == 0 ? "Lower" : "Higher"} @change=${this._playerIndexChange}>
-            <template>
-              <vaadin-list-box>
-                <vaadin-item>Lower</vaadin-item>
-                <vaadin-item>Higher</vaadin-item>
-              </vaadin-list-box>
-            </template>
-          </vaadin-select>
-          <vaadin-text-field id=${'name_' + item.id} class="playerName" theme="slippi-style" label="Name" value=${item.name} clear-button-visible @change=${this._playerNameChange}></vaadin-text-field>
-          <vaadin-text-field id=${'pronouns_' + item.id} class="playerPronouns" theme="slippi-style" label="Pronouns" value=${item.pronouns} clear-button-visible @change=${this._pronounsChange}></vaadin-text-field>
-          <vaadin-text-field id=${'sponsor_' + item.id} class="sponsorName" theme="slippi-style" label="Sponsor" value=${item.sponsor} clear-button-visible @change=${this._sponsorNameChange}></vaadin-text-field>
-        </vaadin-horizontal-layout>
-      `)}
-       <span class="teamPaddingBottom"></span>
-    `)}
-  `}
-  <vaadin-horizontal-layout id="lowerButtonsLayout">
-    <vaadin-button id="resetScoresButton" theme="primary" @click=${this._resetScoresButtonClicked}>Reset Scores</vaadin-button>
-    <vaadin-button id="swapDataButton" theme="primary" @click=${this._swapDataButtonClicked}>Swap Data</vaadin-button>
-  </vaadin-horizontal-layout>
-  <vaadin-radio-group id="autoScoreCheckbox" theme="slippi-style" label="Auto Scoring" value=${this.autoScoreEnabled} @change=${this._autoScoreRadioChange}>
-    <vaadin-radio-button value="false" theme="slippi-style">Hand-Warmer</vaadin-radio-button>
-    <vaadin-radio-button value="true" theme="slippi-style">Tournament</vaadin-radio-button>
-  </vaadin-radio-group>
-</vaadin-vertical-layout>
+              <span class="teamPaddingTop"></span>
+              <span style="font-weight:bold">Players:</span>
+              ${repeat(
+                this.players.slice(i * 2, i * 2 + 2),
+                (item) => item.id,
+                (item, index) => html`
+                  <vaadin-horizontal-layout class="playerData">
+                    <vaadin-select
+                      id=${'index_' + item.id}
+                      class="playerIndex"
+                      theme="slippi-style"
+                      label="Port"
+                      value=${item.slippiIndex == 0 ? 'Lower' : 'Higher'}
+                      @change=${this._playerIndexChange}
+                    >
+                      <template>
+                        <vaadin-list-box>
+                          <vaadin-item>Lower</vaadin-item>
+                          <vaadin-item>Higher</vaadin-item>
+                        </vaadin-list-box>
+                      </template>
+                    </vaadin-select>
+                    <vaadin-text-field
+                      id=${'name_' + item.id}
+                      class="playerName"
+                      theme="slippi-style"
+                      label="Name"
+                      value=${item.name}
+                      clear-button-visible
+                      @change=${this._playerNameChange}
+                    ></vaadin-text-field>
+                    <vaadin-text-field
+                      id=${'country_' + item.id}
+                      class="playerCountry"
+                      theme="slippi-style"
+                      label="Country"
+                      value=${item.country}
+                      clear-button-visible
+                      @change=${this._countryChange}
+                    ></vaadin-text-field>
+                    <vaadin-text-field
+                      id=${'pronouns_' + item.id}
+                      class="playerPronouns"
+                      theme="slippi-style"
+                      label="Pronouns"
+                      value=${item.pronouns}
+                      clear-button-visible
+                      @change=${this._pronounsChange}
+                    ></vaadin-text-field>
+                    <vaadin-text-field
+                      id=${'sponsor_' + item.id}
+                      class="sponsorName"
+                      theme="slippi-style"
+                      label="Sponsor"
+                      value=${item.sponsor}
+                      clear-button-visible
+                      @change=${this._sponsorNameChange}
+                    ></vaadin-text-field>
+                  </vaadin-horizontal-layout>
+                `,
+              )}
+              <span class="teamPaddingBottom"></span>
+            `,
+          )}
+        `}
+    <vaadin-horizontal-layout id="lowerButtonsLayout">
+      <vaadin-button
+        id="resetScoresButton"
+        theme="primary"
+        @click=${this._resetScoresButtonClicked}
+        >Reset Scores</vaadin-button
+      >
+      <vaadin-button
+        id="swapDataButton"
+        theme="primary"
+        @click=${this._swapDataButtonClicked}
+        >Swap Data</vaadin-button
+      >
+    </vaadin-horizontal-layout>
+    <vaadin-radio-group
+      id="autoScoreCheckbox"
+      theme="slippi-style"
+      label="Auto Scoring"
+      value=${this.autoScoreEnabled}
+      @change=${this._autoScoreRadioChange}
+    >
+      <vaadin-radio-button value="false" theme="slippi-style"
+        >Hand-Warmer</vaadin-radio-button
+      >
+      <vaadin-radio-button value="true" theme="slippi-style"
+        >Tournament</vaadin-radio-button
+      >
+    </vaadin-radio-group>
+  </vaadin-vertical-layout>
 `;
 }

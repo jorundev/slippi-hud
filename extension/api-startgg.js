@@ -5,6 +5,7 @@ const nodecg = require('./util/nodecg-api-context').get();
 
 //Libs
 const got = require("got");
+const { countryCodeFromName } = require('./util/country_codes');
 
 //Replicants
 const tournament = nodecg.Replicant('tournament');
@@ -68,19 +69,22 @@ query SetQuery($setId: ID!) {
                     team {
 						id
                         name
-                        discriminator                                
+                        discriminator
                     }
               		participants {
           				id
                         gamerTag
-                        prefix 
+                        prefix
                         user {
 							id
-                            name 
+                            name
                             slug
                             discriminator
                             genderPronoun
-                            authorizations {                         
+							location {
+								country
+							}
+                            authorizations {
 								id
                                 externalId
                                 externalUsername
@@ -105,8 +109,8 @@ query SetQuery($setId: ID!) {
 };
 
 const standingsQueryTemplateGQL = {
-	operationName: "StandingsQuery",
-	query: `
+  operationName: 'StandingsQuery',
+  query: `
 query StandingsQuery($eventId: ID!, $page: Int!, $perPage: Int!) {
 		event(id: $eventId){
 			standings(query: {
@@ -131,7 +135,7 @@ query StandingsQuery($eventId: ID!, $page: Int!, $perPage: Int!) {
 						team {
 							id
 							name
-							discriminator                                
+							discriminator
 						}
               			participants {
           					id
@@ -140,11 +144,14 @@ query StandingsQuery($eventId: ID!, $page: Int!, $perPage: Int!) {
 							connectedAccounts
 							user {
 								id
-								name 
+								name
 								slug
 								discriminator
 								genderPronoun
-								authorizations {                         
+								location {
+									country
+								}
+								authorizations {
 									id
 									externalId
 									externalUsername
@@ -158,7 +165,7 @@ query StandingsQuery($eventId: ID!, $page: Int!, $perPage: Int!) {
     		}
 		}
 }`,
-	variables: { eventId: 0, page: 1, perPage: 8 }
+  variables: { eventId: 0, page: 1, perPage: 8 },
 };
 
 const entrantSetQueryTemplateGQL = {
@@ -201,7 +208,7 @@ query SetQueryForEntrant($entrantId: ID!, $page: Int!, $perPage: Int!) {
 						}
 					}
 				}
-			}		
+			}
 		}
 }`,
 	variables: { entrantId: 0, page: 1, perPage: 3 }
@@ -504,6 +511,12 @@ async function updateByStreamQueue(tournyData) {
 
 						if (participant.user && participant.user.genderPronoun)
 							players.value[playerIndex].pronouns = participant.user.genderPronoun;
+
+						if (participant.user && participant.user.location.country) {
+							players.value[playerIndex].country = countryCodeFromName(
+                				participant.user.location.country,
+              				).toLowerCase();
+						}
 
 						if (participant.prefix)
 							players.value[playerIndex].sponsor = participant.prefix;

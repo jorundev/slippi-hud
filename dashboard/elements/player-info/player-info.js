@@ -250,7 +250,7 @@ export class PlayerInfo extends LitElement {
 
 	refreshPlayerArray(players, isTeams) {
 
-		//Note: Slice array to actual player count. If not available, assume 2 in singles and 4 in doubles for now		
+		//Note: Slice array to actual player count. If not available, assume 2 in singles and 4 in doubles for now
 		let playerCount = isTeams ? 4 : 2;
 
 		if (slippi.value.gameInfo.started && !slippi.value.gameInfo.finished && slippi.value.playerInfo.length > 0) {
@@ -294,8 +294,8 @@ export class PlayerInfo extends LitElement {
 
 		let portName = event.target.value;
 
-		let newIndex = portName === "Lower" ? 0 : 1; 
- 
+		let newIndex = portName === "Lower" ? 0 : 1;
+
 		if (newIndex < 0 || newIndex >= players.value.length)
 			return;
 
@@ -384,6 +384,16 @@ export class PlayerInfo extends LitElement {
 		players.value[playerIndex].pronouns = newPronouns;
 	}
 
+	_countryChange(event) {
+		let newCountry = event.target.value;
+
+		//console.log("New pronouns:", newPronouns, "from:", event.target.id);
+
+		let playerIndex = Number.parseInt(event.target.id.split("_")[1]);
+
+		players.value[playerIndex].country = newCountry;
+	}
+
 	_sponsorNameChange(event) {
 		let newSponsor = event.target.value;
 
@@ -418,7 +428,7 @@ export class PlayerInfo extends LitElement {
 			if (teamInternalId < 0) {
 				event.target.value = 0;
 				return;
-			}		
+			}
 
 			let teamId = slippi.value.gameInfo.activeTeams.findIndex(teamIdElem => teamIdElem === teamInternalId);
 
@@ -431,7 +441,7 @@ export class PlayerInfo extends LitElement {
 
 		} else { //Singles
 			//console.log("New score:", newScore, "for index:", scoreIndex);
-			winnerIndex = players.value[scoreIndex].slippiIndex;		
+			winnerIndex = players.value[scoreIndex].slippiIndex;
 		}
 
 		let oldScore = tournament.value.scores[winnerIndex].score;
@@ -495,7 +505,7 @@ export class PlayerInfo extends LitElement {
 				}
 
 				i = i + (tournament.value.isTeams ? 0 : 1);
-			}		
+			}
 		}
 	}
 

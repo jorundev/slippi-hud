@@ -12,6 +12,10 @@
 				"type": "string",
 				"default": ""
 			},
+			"country": {
+				"type": "string",
+				"default": ""
+			},
 			"isTeam": {
 				"type": "boolean",
 				"default": false
